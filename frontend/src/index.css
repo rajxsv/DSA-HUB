@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+  
+
+html , body{
+    padding: 0;
+    margin: 0;
+
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    height: 100vh;
+}
+
+.font-subtitle{
+    letter-spacing: 0.7rem;
+    font-size: medium;
+    margin-bottom: 0;
+}
+
+.font-title {
+    letter-spacing: 3rem;
+    overflow-wrap: break-word;
+}
