@@ -12,14 +12,13 @@ export const getAllProblems = async (req, res, next) => {
 };
 
 export const getProblemByID = async (req, res) => {
-  let problem;
   const ID = req.params.id;
   try {
     problem = await Problem.findOne({ id: ID }).lean();
     res.status(200).json({ problem });
   } catch (error) {
     console.log(error);
-    if (!problem) res.status(404).json({ message: "No Problem Found" });
+    res.status(404).json({ message: "No Problem Found" });
   }
 };
 
@@ -28,11 +27,11 @@ export const addNewProblem = async (req, res) => {
   try {
     const newProblem = new Problem(problem);
     await newProblem.save();
+    res.status(200).json({ message: "Success" });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Bad Request" });
   }
-  res.status(200).json({ message: "Success" });
 };
 
 export const deleteProblemById = async (req, res) => {
@@ -49,15 +48,12 @@ export const deleteProblemById = async (req, res) => {
 export const editProblemById = async (req, res) => {
   const filter = {id:req.body.id};
   const update = req.body.problemWithoutId;
-  let status;
   try {
     status = await Problem.findOneAndUpdate(filter, update).exec();
+    res.status(404).json({ message: "Bad" });
   } catch (error) {
     console.log(error);
-  }
-  if(!status){
-    return res.status(404).json({ message: "Bad" });
+    res.status(200).json({ message: "Success" });
   }
 
-  return res.status(200).json({ message: "Success" });
 };
