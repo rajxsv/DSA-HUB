@@ -8,18 +8,6 @@ export default function Info({ problem }) {
   const link = problem.links;
 
   return (
-    // <div>
-    //   {problem.id}
-    //   <br />
-    //   {problem.description}
-    //   <br />
-    //   {problem.tags}
-    //   <br />
-    //   {problem.links}
-    //   <br />
-    //   {status}
-    //   <br />
-    // </div>
     <div className="top-0 min-h-screen w-full flex justify-center">
       <div className="w-full p-8">
         <h1 className="text-4xl font-bold mb-4">{title}</h1>

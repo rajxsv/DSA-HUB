@@ -13,7 +13,7 @@ export default function AddProblem() {
     try {
       const response = await axios.get("http://localhost:3000/");
       const newProblemId = response.data.problems.length;
-
+      
       const newProblem = {
         id: newProblemId,
         title: title,
@@ -22,7 +22,7 @@ export default function AddProblem() {
         links: link,
         done: false,
       };
-
+      console.log(newProblem)
       axios
         .post("http://localhost:3000/post", { newProblem })
         .then(() => {

@@ -14,6 +14,7 @@ export default function DeleteProblem() {
         console.log(res);
       })
       .catch((err) => {
+        alert("Not Deleted !");
         console.error(err);
       });
   };

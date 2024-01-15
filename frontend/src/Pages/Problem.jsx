@@ -10,13 +10,18 @@ export default function Problems() {
   const { state } = useLocation();
   const id = state.id;
   const [problem, setProblem] = useState({});
-
+  
   useEffect(() => {
     const fetchProblem = async () => {
       const url = "http://localhost:3000/" + id;
-      const response = await axios.get(url);
+      let response;
+      try {
+        response = await axios.get(url);
+      } catch (error) {
+        console.log(error)
+      }
 
-      setProblem(response.data.problems);
+      setProblem(response.data.problem);
     };
     fetchProblem();
   }, []);

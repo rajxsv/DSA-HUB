@@ -9,15 +9,18 @@ export default function ListProblems() {
 
   useEffect(() => {
     const fetchData = async () => {
+      let response
       try {
-        const response = await axios.get("http://localhost:3000/");
-        setProblems(response.data.problems);
+        response = await axios.get("http://localhost:3000/");
       } catch {
         console.log("Error fwtching data");
       }
+      setProblems(response.data.problems);
     };
     fetchData();
   }, []);
+
+  console.log(problems)
 
   return (
     <>
