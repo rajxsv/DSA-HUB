@@ -49,7 +49,7 @@ export const editProblemById = async (req, res) => {
   const filter = {id:req.body.id};
   const update = req.body.problemWithoutId;
   try {
-    status = await Problem.findOneAndUpdate(filter, update).exec();
+    await Problem.findOneAndUpdate(filter, update).exec();
     res.status(404).json({ message: "Bad" });
   } catch (error) {
     console.log(error);
