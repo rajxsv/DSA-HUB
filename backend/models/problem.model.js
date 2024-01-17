@@ -30,8 +30,8 @@ const problemSchema = new mongoose.Schema({
   description: String,
   tags: [
     {
-      type:String,
-      required:true
+      type: [String, "Please Enter String Value."],
+      required: true
     }
   ],
   links: String,
