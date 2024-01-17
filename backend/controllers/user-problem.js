@@ -1,4 +1,5 @@
-import { Problems as Problem } from "../models/problem.model.js";
+import { Problems as Problem } from "../models/problem.model.js"
+
 
 export const getAllProblems = async (req, res, next) => {
   let problems;
@@ -58,3 +59,5 @@ export const editProblemById = async (req, res) => {
   }
 
 };
+
+
