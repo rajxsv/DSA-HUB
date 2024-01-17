@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
 export default function NewListProblems() {
-
   const [problems, setProblems] = useState([{ title: "loading" }]);
 
   useEffect(() => {
@@ -18,6 +16,8 @@ export default function NewListProblems() {
     };
     fetchData();
   }, []);
+
+  console.log(problems);
 
   return problems ? (
     <section className=" ml-9 mt-6 mx-auto w-full max-w-7xl px-4 py-4 overflow-scroll">

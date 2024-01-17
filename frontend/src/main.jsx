@@ -14,6 +14,10 @@ import AddProblem from "./Pages/AddProblem";
 import DeleteProblem from "./Pages/DeleteProblem";
 import EditProblem from "./Pages/EditProblem";
 import Compiler from "./Pages/Compiler";
+import path from "path";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import NewListProblems from "./Pages/Test";
 
 // je children paaye aa OUTLET deke aao
 const router = createBrowserRouter([
@@ -24,6 +28,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Landing />,
+      },
+      {
+        path: '/login',
+        element: <Login />
+      },
+      {
+        path: '/signup',
+        element: <SignUp />
       },
       {
         path: "/content/list",
@@ -51,6 +63,11 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/test',
+    element: <NewListProblems/>
+  },
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
