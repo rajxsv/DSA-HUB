@@ -28,7 +28,12 @@ const problemSchema = new mongoose.Schema({
   id: Number,
   title: String,
   description: String,
-  tags: String,
+  tags: [
+    {
+      type:String,
+      required:true
+    }
+  ],
   links: String,
   done: Boolean,
 });

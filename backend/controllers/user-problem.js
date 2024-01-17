@@ -13,9 +13,10 @@ export const getAllProblems = async (req, res, next) => {
 
 export const getProblemByID = async (req, res) => {
   const ID = req.params.id;
+  let problem;
   try {
     problem = await Problem.findOne({ id: ID }).lean();
-    res.status(200).json({ problem });
+    res.status(200).json({problem});
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "No Problem Found" });
