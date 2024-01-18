@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { problemRouter } from "./routes/user-problems-routes.js";
+import { router } from "./routes/user-problems-routes.js";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 
@@ -17,11 +17,11 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.urlencoded({extended: true, limi  t: "16kb"}))
+app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(express.json());
 
-app.use("/", problemRouter);
+app.use("/", router);
 
 app.listen(port, () => {
   console.log("listening on ", port);

@@ -1,15 +1,17 @@
 import express from "express";
-import { addNewProblem, deleteProblemById, editProblemById, getAllProblems, getProblemByID } from "../controllers/user-problem.js";
+import { addNewProblem, deleteProblemById, editProblemById, getAllProblems, getProblemByID, loginUser, registerUser } from "../controllers/user-problem.js";
 
-export const problemRouter = express.Router()
+export const router = express.Router()
 
-problemRouter.get('/',getAllProblems)
-problemRouter.get('/:id',getProblemByID)
+router.get('/',getAllProblems)
+router.get('/:id',getProblemByID)
 
-problemRouter.post('/post',addNewProblem)
+router.post('/post',addNewProblem)
+router.post('/login',loginUser)
+router.post('/register',registerUser)
 
-problemRouter.delete("/delete/:id",deleteProblemById)
+router.delete("/delete/:id",deleteProblemById)
 
-problemRouter.put('/put',editProblemById)
+router.put('/put',editProblemById)
 
 

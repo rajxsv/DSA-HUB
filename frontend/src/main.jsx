@@ -14,7 +14,6 @@ import AddProblem from "./Pages/AddProblem";
 import DeleteProblem from "./Pages/DeleteProblem";
 import EditProblem from "./Pages/EditProblem";
 import Compiler from "./Pages/Compiler";
-import path from "path";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import NewListProblems from "./Pages/Test";
