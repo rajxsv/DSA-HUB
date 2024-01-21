@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 
+const user = JSON.parse(localStorage.getItem("userData"));
+
 export default function AddProblem() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -11,20 +13,15 @@ export default function AddProblem() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:3000/");
-      const newProblemId = response.data.problems.length;
-      
       const newProblem = {
-        id: newProblemId,
         title: title,
         description: desc,
         tags: tags,
         links: link,
         done: false,
       };
-      console.log(newProblem)
       axios
-        .post("http://localhost:3000/post", { newProblem })
+        .post("http://localhost:3000/user/addproblem/" + user._id,  newProblem )
         .then(() => {
           alert("Problem Added");
         })

@@ -2,22 +2,43 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function NewListProblems() {
+const user = JSON.parse(localStorage.getItem("userData"));
 
+export default function NewListProblems() {
   const [problems, setProblems] = useState([{ title: "loading" }]);
+  const [deleted, setDelete] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      let response;
       try {
-        response = await axios.get("http://localhost:3000/");
-        setProblems(response.data.problems);
+        const url = "http://localhost:3000/user/getproblems/" + user._id;
+        const { data } = await axios.get(url);
+        console.log(data);
+        setProblems(data);
       } catch {
         console.log("Error fetching data");
       }
     };
     fetchData();
-  }, []);
+  }, [deleted]);
+
+  const handleDeleteProblem = async (_id) => {
+    try {
+      const url = "http://localhost:3000/user/deleteproblem/" + _id;
+      await axios
+        .delete(url)
+        .then((res) => {
+          // alert(res.message);
+          setDelete(!deleted)
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    } catch (error) {
+      console.log(error);
+      alert("There was some issue");
+    }
+  };
 
   return problems ? (
     <section className=" ml-9 mt-6 mx-auto w-full max-w-7xl px-4 py-4 overflow-scroll">
@@ -88,8 +109,15 @@ export default function NewListProblems() {
                             </span>
                           )}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
+                        <td className="flex justify-between whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                           {item.tags}
+                          <button
+                            className="fonr-red text-deep-orange-700"
+                            onClick={() => handleDeleteProblem(item._id)}
+                          >
+                            {" "}
+                            Delete{" "}
+                          </button>
                         </td>
                       </tr>
                     </tbody>

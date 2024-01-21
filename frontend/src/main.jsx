@@ -29,14 +29,6 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: '/login',
-        element: <Login />
-      },
-      {
-        path: '/signup',
-        element: <SignUp />
-      },
-      {
         path: "/content/list",
         element: <List />,
       },
@@ -65,6 +57,14 @@ const router = createBrowserRouter([
   {
     path: '/test',
     element: <NewListProblems/>
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/signup',
+    element: <SignUp />
   },
 
 ]);

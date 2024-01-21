@@ -1,8 +1,8 @@
-import { Problems as Problem } from "../models/problem.model.js"
+import { Problems as Problem, Problems } from "../models/problem.model.js";
 import bcrypt from "bcrypt";
 import { User } from "../models/user.model.js";
-import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 export const registerUser = async (req, res) => {
   const { email, username, password } = req.body;
@@ -31,12 +31,13 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const existinguser = await User.findOne({ email }).lean();
-  if (!existinguser) {
-    res.status(400).json({ message: "User does not exist" });
-  }
-
   try {
+    const existinguser = await User.findOne({ email }).lean();
+
+    if (!existinguser) {
+      res.status(400).json({ message: "User does not exist" });
+    }
+
     const userHashedPassword = existinguser.password;
     const isValid = await bcrypt.compare(password, userHashedPassword);
 
@@ -55,8 +56,11 @@ export const loginUser = async (req, res) => {
 
     console.log("Logging in User");
 
+    const user = await User.findOne({ email }).select("-password");
+
     res.status(200).json({
       token,
+      user,
       message: "Your are Logged In !",
     });
   } catch (error) {
@@ -64,6 +68,48 @@ export const loginUser = async (req, res) => {
     res.status(400).json({ message: "Internal Server Error" });
   }
 };
+
+export const getUserProblems = async (req, res) => {
+  try {
+    const _id = req.params.id; // user id
+    const user = await User.findById({ _id }).populate("problems");
+    res.status(200).json(user.problems);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Error in backend" });
+  }
+};
+
+export const addUserProblem = async (req, res) => {
+  try {
+    const _id = String(req.params.id);
+    const { title, description, tags, links, done } = req.body;
+    const newProblem = await Problem.create({
+      title,
+      description,
+      tags,
+      links,
+      done,
+    });
+    const newProblemID = newProblem._id;
+    await User.updateOne({ _id }, { $push: { problems: newProblemID } });
+    res.status(200).json({message:"Success"})
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({message:"Internal Server Error"})
+  }
+};
+
+export const deleteUserProblem = async (req,res) => {
+  try {
+    const _id = req.params.id;  // problem id
+    await Problems.findOneAndDelete({_id})
+    res.status(200).json({message:"success"})
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({message : "internal server error"})
+  }
+}
 
 export const getAllProblems = async (req, res, next) => {
   let problems;
@@ -81,7 +127,7 @@ export const getProblemByID = async (req, res) => {
   let problem;
   try {
     problem = await Problem.findOne({ id: ID }).lean();
-    res.status(200).json({problem});
+    res.status(200).json({ problem });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "No Problem Found" });
@@ -103,16 +149,16 @@ export const addNewProblem = async (req, res) => {
 export const deleteProblemById = async (req, res) => {
   const ID = req.params.id;
   try {
-    await Problem.deleteOne({ id:ID }).exec();
+    await Problem.deleteOne({ id: ID }).exec();
     res.status(200).json({ message: "Success" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(404).json({ message: "Bad Request" });
   }
 };
 
 export const editProblemById = async (req, res) => {
-  const filter = {id:req.body.id};
+  const filter = { id: req.body.id };
   const update = req.body.problemWithoutId;
   try {
     await Problem.findOneAndUpdate(filter, update).exec();
@@ -121,7 +167,4 @@ export const editProblemById = async (req, res) => {
     console.log(error);
     res.status(200).json({ message: "Success" });
   }
-
 };
-
-
