@@ -14,7 +14,7 @@ export default function Info({ problem }) {
         <p className="mb-4">{description}</p>
 
         <div className="flex-wrap mb-4">
-          <span className="bg-gray-700 text-gray-300 py-1 px-2 rounded mr-2 mb-2">
+          <span className="bg-gray-700 text-gray-300 py-1 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa px-2 rounded mr-2 mb-2">
             {tags}
           </span>
         </div>

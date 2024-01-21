@@ -15,18 +15,17 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const { data , status} = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
 
-      if (response.status == 200) {
-        const token = response.data.token;
-
-        localStorage.setItem("token", token);
-        alert("User Logged in")
-        setMessage("User Logged in");
-        navigate("/" , { state : email });
+      if (status == 200) {
+        console.log(data.user.email)
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        alert("User Logged in");
+        navigate("/");
       } else {
         console.log("There was some problem logging in");
       }
@@ -39,7 +38,6 @@ export default function Login() {
     <div class=" w-full flex flex-col items-center justify-center border-solid p-10 rounded-md border-blue-gray-600">
       <Link
         className="font-medium text-black transition-all duration-200 hover:underline"
-        to="/"
       >
         Home
       </Link>

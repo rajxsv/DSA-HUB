@@ -1,65 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-} from "@material-tailwind/react";
+import { Card, Typography, List, ListItem } from "@material-tailwind/react";
+import User from "./User";
 
 export default function SidePanel() {
-  const { state } = useLocation()
-  console.log(state)
+  const [user, setUser] = useState();
+  const [token, setToken] = useState();
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("userData"));
+    const storedToken = localStorage.getItem("token")
+    setUser(storedUser)
+    setToken(storedToken)
+  },localStorage)
+  
   return (
-      <Card className="w-2/5 h-screen bg-gray-100 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-        <div className="mb-2 p-4">
-          <Typography className="text-6xl" variant="h5" color="blue-gray">
-            {"{ }"}
-          </Typography>
-        </div>
-        <div className="flex flex-col justify-between h-full">
-          <List className="text-1xl">
-            <Link to="/">
-              <ListItem>Home</ListItem>
-            </Link>
-            <Link id="link-style" to="/content/list">
-              <ListItem>Problems</ListItem>
-            </Link>
-            <Link id="link-style" to="/content/addProblem">
-              <ListItem>Add Problem</ListItem>
-            </Link>
-            <Link id="link-style" to="/content/deleteProblem">
-              <ListItem>Delete Problem</ListItem>
-            </Link>
-            <Link id="link-style" to="/content/editProblem">
-              <ListItem>Edit Problem</ListItem>
-            </Link>
-            <Link id="link-style" to="/content/compiler">
-              <ListItem>Compiler</ListItem>
-            </Link>
-          </List>
-          <div className=" ml-4 flex flex-col mb-5">
-            <p className="mb-24 rounded-md px-3 py-2 text-sm font-semibold">{state}</p>
-            <Link to={'/login'} className="mb-5">
-              <button
-                type="button"
-                class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Log In
-              </button>
-            </Link>
-            <Link to={'/signup'}>
-              <button
-                type="button"
-                class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Sign Up
-              </button>
-            </Link>
-          </div>
-        </div>
-      </Card>
+    <Card className="w-2/5 h-screen bg-gray-100 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div className="mb-2 p-4">
+        <Typography className="text-2xl" variant="h5" color="blue-gray">
+          {"{ }"}
+        </Typography>
+      </div>
+      <div className="flex flex-col justify-between h-full">
+        <List className="text-1xl">
+          <Link to="/">
+            <ListItem>Home</ListItem>
+          </Link>
+          <Link id="link-style" to="/content/list">
+            <ListItem>Problems</ListItem>
+          </Link>
+          <Link id="link-style" to="/content/addProblem">
+            <ListItem>Add Problem</ListItem>
+          </Link>
+          <Link id="link-style" to="/content/editProblem">
+            <ListItem>Edit Problem</ListItem>
+          </Link>
+          <Link id="link-style" to="/content/compiler">
+            <ListItem>Compiler</ListItem>
+          </Link>
+          <ListItem>{user ? `Logged in as ${user.email}` : ""}</ListItem>
+        </List>
+        <User user={user} token={token} />
+      </div>
+    </Card>
   );
 }
