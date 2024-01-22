@@ -17,6 +17,7 @@ import Compiler from "./Pages/Compiler";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import NewListProblems from "./Pages/Test";
+import Discuss from "./Pages/Discuss";
 
 // je children paaye aa OUTLET deke aao
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
         path: "/content/compiler",
         element: <Compiler />,
       },
+      {
+        path:'/discuss',
+        element: <Discuss />
+      }
     ],
   },
   {

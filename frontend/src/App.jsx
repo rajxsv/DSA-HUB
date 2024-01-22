@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import SidePanel from "./Pages/SidePanel";
 
 export default function App() {
-  const user = JSON.parse(localStorage.getItem("userData"))
+  const user = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
-  if(user) return (
+  useEffect(() => {
+    if (!user) {
+      navigate("/signup");
+    }
+  }, []);
+  
+  return (
     <div className="flex h-screen">
       <SidePanel />
       <Outlet />
     </div>
-  )
-  navigate('/login')
+  );
 }

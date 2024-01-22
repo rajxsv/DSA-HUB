@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GreenAlert } from "../componenets/GreenAlert";
 
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [message, setMessage] = useState();
+  const [showAlert, setShowAlert] = useState();
+  const [formDisabled, setFormDisabled] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(false);
 
   // implement loader, button clicked loader , use hooks (useTransition)
 
@@ -15,17 +18,24 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data , status} = await axios.post("http://localhost:3000/login", {
+      const { data, status } = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
 
       if (status == 200) {
-        console.log(data.user.email)
+        console.log(data.user.email);
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.user));
-        alert("User Logged in");
-        navigate("/");
+
+        setFormDisabled(true);
+        setShowAlert(true);
+        setMessage("Logged in....Please wait while we redirect you");
+
+        setTimeout(() => {
+          setShowAlert(false);
+          navigate("/");
+        }, 4 * 1000);
       } else {
         console.log("There was some problem logging in");
       }
@@ -36,9 +46,7 @@ export default function Login() {
 
   return (
     <div class=" w-full flex flex-col items-center justify-center border-solid p-10 rounded-md border-blue-gray-600">
-      <Link
-        className="font-medium text-black transition-all duration-200 hover:underline"
-      >
+      <Link className="font-medium text-black transition-all duration-200 hover:underline">
         Home
       </Link>
       <h2 class="text-3xl font-bold leading-tight text-black">Log In</h2>
@@ -59,6 +67,7 @@ export default function Login() {
             </label>
             <div class="mt-2">
               <input
+                disabled={formDisabled}
                 class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="email"
                 placeholder="Email"
@@ -74,6 +83,7 @@ export default function Login() {
             </div>
             <div class="mt-2">
               <input
+                disabled={formDisabled}
                 class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 type="password"
                 placeholder="Password"
@@ -84,31 +94,35 @@ export default function Login() {
             </div>
           </div>
           <div className="mt-4">
-            <button
-              type="submit"
-              class="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
-            >
-              Log In
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="ml-2"
+            {!formDisabled && (
+              <button
+                type="submit"
+                class="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
               >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button>
+                Log In
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="ml-2"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            )}
           </div>
         </div>
       </form>
-      <div>{message}</div>
+      <div className="mt-6">
+        {showAlert && <GreenAlert message={message} />}
+      </div>
     </div>
   );
 }
