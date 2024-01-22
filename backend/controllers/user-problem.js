@@ -93,23 +93,24 @@ export const addUserProblem = async (req, res) => {
     });
     const newProblemID = newProblem._id;
     await User.updateOne({ _id }, { $push: { problems: newProblemID } });
-    res.status(200).json({message:"Success"})
+    res.status(200).json({ message: "Success" });
   } catch (error) {
-    console.log(error)
-    res.status(400).json({message:"Internal Server Error"})
+    console.log(error);
+    res.status(400).json({ message: "Internal Server Error" });
   }
 };
 
-export const deleteUserProblem = async (req,res) => {
+export const deleteUserProblem = async (req, res) => {
   try {
-    const _id = req.params.id;  // problem id
-    await Problems.findOneAndDelete({_id})
-    res.status(200).json({message:"success"})
+    const _id = req.params.id; // problem id
+    await Problems.findOneAndDelete({ _id });
+    res.status(200).json({ message: "success" });
   } catch (error) {
-    console.log(error)
-    res.status(400).json({message : "internal server error"})
+    console.log(error);
+    res.status(400).json({ message: "internal server error" });
   }
-}
+};
+
 
 export const getAllProblems = async (req, res, next) => {
   let problems;
@@ -158,13 +159,13 @@ export const deleteProblemById = async (req, res) => {
 };
 
 export const editProblemById = async (req, res) => {
-  const filter = { id: req.body.id };
-  const update = req.body.problemWithoutId;
+  const filter = { _id: req.params.id };
+  const update = req.body;
   try {
     await Problem.findOneAndUpdate(filter, update).exec();
-    res.status(404).json({ message: "Bad" });
+    res.status(200).json({ message: "Success" });
   } catch (error) {
     console.log(error);
-    res.status(200).json({ message: "Success" });
+    res.status(404).json({ message: "Bad Request" });
   }
 };

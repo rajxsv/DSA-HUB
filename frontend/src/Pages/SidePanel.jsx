@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Card, Typography, List, ListItem } from "@material-tailwind/react";
 import User from "./User";
@@ -10,11 +10,11 @@ export default function SidePanel() {
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("userData"));
-    const storedToken = localStorage.getItem("token")
-    setUser(storedUser)
-    setToken(storedToken)
-  },localStorage)
-  
+    const storedToken = localStorage.getItem("token");
+    setUser(storedUser);
+    setToken(storedToken);
+  }, localStorage);
+
   return (
     <Card className="w-2/5 h-screen bg-gray-100 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <div className="mb-2 p-4">
@@ -33,14 +33,18 @@ export default function SidePanel() {
           <Link id="link-style" to="/content/addProblem">
             <ListItem>Add Problem</ListItem>
           </Link>
-          <Link id="link-style" to="/content/editProblem">
-            <ListItem>Edit Problem</ListItem>
+          <Link id="link-style" to="/discuss">
+            <ListItem>Discuss</ListItem>
           </Link>
           <Link id="link-style" to="/content/compiler">
             <ListItem>Compiler</ListItem>
           </Link>
-          <ListItem>{user ? `Logged in as ${user.email}` : ""}</ListItem>
         </List>
+        <div className="bg-black p-2 rounded-md">
+          <p className=" text-white text-center">
+            {user && `Greetings ${user.username} !`}
+          </p>
+        </div>
         <User user={user} token={token} />
       </div>
     </Card>
