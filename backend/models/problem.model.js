@@ -38,4 +38,4 @@ const problemSchema = new mongoose.Schema({
   done: Boolean,
 });
 
-export const Problems = mongoose.model('Problem',problemSchema)
+export const Problem = mongoose.model('Problem',problemSchema)

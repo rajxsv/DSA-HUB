@@ -18,6 +18,7 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import NewListProblems from "./Pages/Test";
 import Discuss from "./Pages/Discuss";
+import AddPost from "./Pages/AddPost";
 
 // je children paaye aa OUTLET deke aao
 const router = createBrowserRouter([
@@ -54,24 +55,27 @@ const router = createBrowserRouter([
         element: <Compiler />,
       },
       {
-        path:'/discuss',
-        element: <Discuss />
-      }
+        path: "/discuss",
+        element: <Discuss />,
+      },
+      {
+        path: "/discuss/addpost",
+        element: <AddPost />,
+      },
     ],
   },
   {
-    path: '/test',
-    element: <NewListProblems/>
+    path: "/test",
+    element: <NewListProblems />,
   },
   {
-    path: '/login',
-    element: <Login />
+    path: "/login",
+    element: <Login />,
   },
   {
-    path: '/signup',
-    element: <SignUp />
+    path: "/signup",
+    element: <SignUp />,
   },
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

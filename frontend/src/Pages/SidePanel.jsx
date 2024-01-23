@@ -45,6 +45,7 @@ export default function SidePanel() {
             {user && `Greetings ${user.username} !`}
           </p>
         </div>
+        <p> {user && user._id} </p>
         <User user={user} token={token} />
       </div>
     </Card>
