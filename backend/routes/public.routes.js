@@ -18,7 +18,7 @@ export const publicRouter = express.Router();
 
 publicRouter.get("/", getAllProblems);
 publicRouter.get("/:id", getProblemByID);
-publicRouter.get('/discuss/posts', getPost)
+publicRouter.get('/discuss/posts', getPost);
 
 publicRouter.post("/post", addNewProblem);
 publicRouter.post("/login", loginUser);

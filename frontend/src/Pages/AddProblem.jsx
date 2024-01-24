@@ -36,7 +36,7 @@ export default function AddProblem() {
             setLink("")
             setTags("")
             navigate('/content/list')
-          }, 2 * 1000);
+          }, 1 * 1000);
         })
         .catch((err) => {
           console.error(err);
