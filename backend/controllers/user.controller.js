@@ -130,9 +130,9 @@ const editUserProblem = async (req, res) => {
 const addUserPost = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { title , body , user } = req.body;
+    const { title, body, user } = req.body;
 
-    const createdPost = await Post.create({ title , body , user });
+    const createdPost = await Post.create({ title, body, user });
     createdPost.user = userId;
     createdPost.save();
 
@@ -203,6 +203,17 @@ const dislikeUserPost = async (req, res) => {
   }
 };
 
+const deleteUserPost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    await Post.findByIdAndDelete(postId);
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Internal Server Error" });
+  }
+};
+
 export {
   loginUser,
   registerUser,
@@ -213,4 +224,5 @@ export {
   addUserPost,
   likeUserPost,
   dislikeUserPost,
+  deleteUserPost,
 };

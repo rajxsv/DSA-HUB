@@ -50,7 +50,7 @@ const deleteProblemById = async (req, res) => {
 
 const getPost = async (req,res) => {
   try {
-    const posts = await Post.find({}).exec()
+    const posts = await Post.find({}).populate('user')
     res.status(200).json(posts)
   } catch (error) {
     console.log(error)

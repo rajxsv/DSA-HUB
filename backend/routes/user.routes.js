@@ -2,6 +2,7 @@ import express from "express";
 import {
   addUserPost,
   addUserProblem,
+  deleteUserPost,
   deleteUserProblem,
   dislikeUserPost,
   editUserProblem,
@@ -21,3 +22,4 @@ userRouter.post('/user/dislikepost', dislikeUserPost);
 userRouter.put("/user/editproblem/:id", editUserProblem);
 
 userRouter.delete("/user/deleteproblem/:id", deleteUserProblem);
+userRouter.delete("/user/deletepost/:id", deleteUserPost);
