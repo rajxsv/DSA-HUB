@@ -14,7 +14,7 @@ export default function NewListProblems() {
     const fetchData = async () => {
       try {
         const url = "http://localhost:3000/user/getproblems/" + user._id;
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(url, { withCredentials: true });
         setProblems(data);
       } catch {
         console.log("Error fetching data");
@@ -138,13 +138,13 @@ export default function NewListProblems() {
                         </td>
                         <td className="flex justify-evenly">
                           <button
-                            className="ml-3 text-deep-orange-700"
+                            className="ml-3 bg-red-100 text-red-900 p-1 px-2 rounded-md"
                             onClick={() => handleDeleteProblem(item._id)}
                           >
                             Delete
                           </button>
                           <Link to={"/content/editProblem"} state={item}>
-                            <button className="mr-3 text-blue-400">
+                            <button className="mr-3 bg-blue-100 text-blue-900 px-2 p-1 rounded-md">
                               Edit
                             </button>
                           </Link>

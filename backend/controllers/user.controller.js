@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign(
       {
-        email,
+        id: existinguser._id,
       },
       process.env.SECRET_KEY,
       {
@@ -61,6 +61,7 @@ const loginUser = async (req, res) => {
     console.log("Logging in User");
 
     const user = await User.findOne({ email }).select("-password");
+    res.cookie(String(existinguser._id), token, {httpOnly:false});
 
     res.status(200).json({
       token,
@@ -75,7 +76,8 @@ const loginUser = async (req, res) => {
 
 const getUserProblems = async (req, res) => {
   try {
-    const _id = req.params.id; // user id
+    console.log(req.user)
+    const _id = req.user._id;
     const user = await User.findById({ _id }).populate("problems");
     res.status(200).json(user.problems);
   } catch (error) {
@@ -86,7 +88,7 @@ const getUserProblems = async (req, res) => {
 
 const addUserProblem = async (req, res) => {
   try {
-    const _id = String(req.params.id);
+    const _id = req.user._id;
     const { title, description, tags, links, done } = req.body;
     const newProblem = await Problem.create({
       title,
@@ -106,8 +108,8 @@ const addUserProblem = async (req, res) => {
 
 const deleteUserProblem = async (req, res) => {
   try {
-    const _id = req.params.id; // problem id
-    await Problems.findOneAndDelete({ _id });
+    const _id = req.user._id; // problem id
+    await Problem.findOneAndDelete({ _id });
     res.status(200).json({ message: "success" });
   } catch (error) {
     console.log(error);
@@ -129,7 +131,7 @@ const editUserProblem = async (req, res) => {
 
 const addUserPost = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user._id;
     const { title, body, user } = req.body;
 
     const createdPost = await Post.create({ title, body, user });
@@ -158,7 +160,7 @@ const likeUserPost = async (req, res) => {
     const isLiked = await Like.findOne({ user: userId, post: postId });
 
     if (isLiked) {
-      res.status(400).json({ message: "bad request post already liked" });
+      res.status(200).json({ message: "post already liked" });
     } else {
       const like = await Like.create({ user: userId, post: postId });
       const likeId = like._id;
@@ -188,7 +190,7 @@ const dislikeUserPost = async (req, res) => {
     const isDisLiked = await Dislike.findOne({ user: userId, post: postId });
 
     if (isDisLiked) {
-      res.status(400).json({ message: "bad request post already disliked" });
+      res.status(200).json({ message: "post already disliked" });
     } else {
       const dislike = await Dislike.create({ user: userId, post: postId });
       const dislikeId = dislike._id;

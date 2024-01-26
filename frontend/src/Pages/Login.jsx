@@ -9,7 +9,7 @@ export default function Login() {
   const [message, setMessage] = useState();
   const [showAlert, setShowAlert] = useState();
   const [formDisabled, setFormDisabled] = useState(false);
-
+  
   const navigate = useNavigate(false);
 
   // implement loader, button clicked loader , use hooks (useTransition)
@@ -27,7 +27,7 @@ export default function Login() {
         console.log(data.user.email);
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.user));
-
+        
         setFormDisabled(true);
         setShowAlert(true);
         setMessage("Logged in....Please wait while we redirect you");

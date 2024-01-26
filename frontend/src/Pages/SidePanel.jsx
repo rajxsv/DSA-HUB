@@ -40,12 +40,12 @@ export default function SidePanel() {
             <ListItem>Compiler</ListItem>
           </Link>
         </List>
-        <div className="bg-black p-2 rounded-md">
-          <p className=" text-white text-center">
+        <div className="border-1 border-solid p-2 rounded-md">
+          <p className="text-center border-1 border-solid">
             {user && `Greetings ${user.username} !`}
+          <p> {user && user._id} </p>
           </p>
         </div>
-        <p> {user && user._id} </p>
         <User user={user} token={token} />
       </div>
     </Card>

@@ -12,7 +12,7 @@ export default function User({ user, token }) {
 
   return (token && user) ? (
     <div>
-      <button className="ml-2" onClick={handleLogout}>
+      <button className="ml-2 text-sm bg-black text-white p-2 rounded-md" onClick={handleLogout}>
         Log Out
       </button>
     </div>
