@@ -6,11 +6,13 @@ import { Link } from "react-router-dom";
 export default function Discuss() {
   const [posts, setPosts] = useState();
   const [deleted, setDeleted] = useState();
+  const [likesAndDislikes, setLikesAndDislikes] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data, status } = await axios.get(
-        "http://localhost:3000/discuss/posts"
+        "http://localhost:3000/discuss/posts",
+        { withCredentials: true }
       );
       if (status == 200) {
         setPosts(data);
@@ -19,12 +21,14 @@ export default function Discuss() {
       }
     };
     fetchData();
-  }, [deleted]);
+  }, [deleted, likesAndDislikes]);
 
   const handleDelete = async (_id) => {
     try {
       await axios
-        .delete("http://localhost:3000/user/deletepost/" + _id)
+        .delete("http://localhost:3000/user/deletepost/" + _id, {
+          withCredentials: true,
+        })
         .then((res) => {
           if (res.status == 200) {
             setDeleted(!deleted);
@@ -37,6 +41,40 @@ export default function Discuss() {
     } catch (error) {
       alert("Error");
       console.log(error);
+    }
+  };
+
+  const handleLike = async (postId, userId) => {
+    try {
+      await axios.post(
+        "http://localhost:3000/user/likepost?" +
+          "userId=" +
+          userId +
+          "&postId=" +
+          postId,
+        { withCredentials: true }
+      );
+      setLikesAndDislikes(!likesAndDislikes);
+    } catch (error) {
+      console.log(error);
+      alert("Error");
+    }
+  };
+
+  const handleDislike = async (postId, userId) => {
+    try {
+      await axios.post(
+        "http://localhost:3000/user/dislikepost?" +
+          "userId=" +
+          userId +
+          "&postId=" +
+          postId,
+        { withCredentials: true }
+      );
+      setLikesAndDislikes(!likesAndDislikes);
+    } catch (error) {
+      console.log(error);
+      alert("Error");
     }
   };
 
@@ -58,6 +96,8 @@ export default function Discuss() {
             posts.map((item, index) => {
               return (
                 <UserPostCard
+                  handleLike={handleLike}
+                  handleDislike={handleDislike}
                   handleDelete={handleDelete}
                   key={index}
                   data={item}
