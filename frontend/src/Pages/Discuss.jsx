@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import UserPostCard from "../componenets/UserPostCard";
 import { Link } from "react-router-dom";
+import { IconButton } from "@material-tailwind/react";
 
 export default function Discuss() {
   const [posts, setPosts] = useState();
@@ -48,10 +49,9 @@ export default function Discuss() {
     try {
       await axios.post(
         "http://localhost:3000/user/likepost?" +
-          "userId=" +
-          userId +
           "&postId=" +
           postId,
+        null,
         { withCredentials: true }
       );
       setLikesAndDislikes(!likesAndDislikes);
@@ -65,10 +65,9 @@ export default function Discuss() {
     try {
       await axios.post(
         "http://localhost:3000/user/dislikepost?" +
-          "userId=" +
-          userId +
           "&postId=" +
           postId,
+        null,
         { withCredentials: true }
       );
       setLikesAndDislikes(!likesAndDislikes);
@@ -80,8 +79,8 @@ export default function Discuss() {
 
   return (
     <>
-      <div className="m-8 flex w-full flex-col gap-5 overflow-scroll">
-        <div className="flex justify-between">
+      <div className="w-full mt-6 flex items-center flex-col gap-5">
+        <div className="flex justify-between w-4/5">
           <div className="m-3 text-bold text-4xl leading-7 font-bold">
             Discuss
           </div>
@@ -91,7 +90,7 @@ export default function Discuss() {
             </button>
           </Link>
         </div>
-        <div className="grid grid-cols-2 overflow-scroll">
+        <div className="w-4/5 grid grid-cols-3">
           {posts &&
             posts.map((item, index) => {
               return (

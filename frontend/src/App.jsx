@@ -12,7 +12,7 @@ export default function App() {
   }, []);
   
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col">
       <SidePanel />
       <Outlet />
     </div>

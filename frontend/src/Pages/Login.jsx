@@ -9,7 +9,7 @@ export default function Login() {
   const [message, setMessage] = useState();
   const [showAlert, setShowAlert] = useState();
   const [formDisabled, setFormDisabled] = useState(false);
-  
+
   const navigate = useNavigate(false);
 
   // implement loader, button clicked loader , use hooks (useTransition)
@@ -18,16 +18,20 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data, status } = await axios.post("http://localhost:3000/login", {
-        email,
-        password,
-      });
+      const { data, status } = await axios.post(
+        "http://localhost:3000/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (status == 200) {
         console.log(data.user.email);
         localStorage.setItem("token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.user));
-        
+
         setFormDisabled(true);
         setShowAlert(true);
         setMessage("Logged in....Please wait while we redirect you");
