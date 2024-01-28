@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GreenAlert } from "../componenets/GreenAlert";
+import Loader from "../componenets/Loader";
 
 const user = JSON.parse(localStorage.getItem("userData"));
 
 export default function NewListProblems() {
-  const [problems, setProblems] = useState([{ title: "loading" }]);
+  const [problems, setProblems] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = "http://localhost:3000/user/getproblems/" + user._id;
-        const { data } = await axios.get(url, { withCredentials: true });
+        const url = "http://localhost:3000/user/getproblems";
+        const { data } = await axios.get(url,{withCredentials:true});
         setProblems(data);
       } catch {
         console.log("Error fetching data");
@@ -46,7 +47,7 @@ export default function NewListProblems() {
   };
 
   return problems ? (
-    <section className=" ml-9 mt-6 mx-auto w-full px-4 py-4 overflow-scroll">
+    <section className="p-12 w-4/5 mt-6 mx-auto px-4 py-4">
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div className="flex justify-between w-full">
           <div>
@@ -64,9 +65,9 @@ export default function NewListProblems() {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full py-2 align-middle ">
             <div className="overflow-hidden border border-gray-200">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full  divide-y divide-gray-200">
                 <thead className="bg-gray-50">
-                  <tr className="divide-x divide-gray-200">
+                  <tr className=" bg-white m-0 divide-x divide-gray-200">
                     <th
                       scope="col"
                       className="px-12 py-3.5 text-left text-sm font-normal text-gray-500"
@@ -81,7 +82,7 @@ export default function NewListProblems() {
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
+                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500 "
                     >
                       Tag
                     </th>
@@ -160,6 +161,6 @@ export default function NewListProblems() {
       </div>
     </section>
   ) : (
-    <h1>Loading</h1>
+    <Loader />
   );
 }

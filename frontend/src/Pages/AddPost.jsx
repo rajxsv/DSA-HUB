@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-const user = JSON.parse(localStorage.getItem("userData"));
-console.log(user);
+
 export default function AddPost() {
   const [showAlert, setShowAlert] = useState(false);
   const [title, setTitle] = useState("");
@@ -11,11 +10,14 @@ export default function AddPost() {
     e.preventDefault();
     try {
       await axios
-        .post("http://localhost:3000/user/addpost/" + user._id, {
-          title,
-          body,
-          user: user._id,
-        })
+        .post(
+          "http://localhost:3000/user/addpost/",
+          {
+            title,
+            body,
+          },
+          { withCredentials: true }
+        )
         .then(() => {
           alert("Done");
         })
@@ -28,8 +30,9 @@ export default function AddPost() {
   };
 
   return (
+    <div className="w-full flex justify-center" >
     <form
-      className="w-full flex flex-col mr-10 ml-12 mt-9"
+      className="w-4/5 flex flex-col mt-9"
       onSubmit={handleSubmit}
     >
       <div className="space-y-12">
@@ -101,5 +104,6 @@ export default function AddPost() {
         </div>
       )}
     </form>
+    </div>
   );
 }

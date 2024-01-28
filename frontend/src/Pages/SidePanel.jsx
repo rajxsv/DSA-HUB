@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import { Card, Typography, List, ListItem } from "@material-tailwind/react";
 import User from "./User";
 
-export default function SidePanel() {
+export default function Navbar() {
   const [user, setUser] = useState();
   const [token, setToken] = useState();
 
@@ -16,38 +14,39 @@ export default function SidePanel() {
   }, localStorage);
 
   return (
-    <Card className="w-2/5 h-screen bg-gray-100 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-        <Typography className="text-2xl" variant="h5" color="blue-gray">
+    <nav className="bg-black p-1">
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="text-white text-2xl focus:bg-gray-900 p-2 rounded-md">
           {"{ }"}
-        </Typography>
-      </div>
-      <div className="flex flex-col justify-between h-full">
-        <List className="text-1xl">
-          <Link to="/">
-            <ListItem>Home</ListItem>
+        </div>
+        <div className="space-x-4">
+          <Link to="/" className="text-gray-500 focus:text-white focus:bg-gray-900 p-2 rounded-md">
+            Home
           </Link>
-          <Link id="link-style" to="/content/list">
-            <ListItem>Problems</ListItem>
+          <Link to="/content/list" className="text-gray-500 focus:text-white focus:bg-gray-900 p-2 rounded-md">
+            Problems
           </Link>
-          <Link id="link-style" to="/content/addProblem">
-            <ListItem>Add Problem</ListItem>
+          <Link to="/content/addProblem" className="text-gray-500 focus:text-white focus:bg-gray-900 p-2 rounded-md">
+            Add Problem
           </Link>
-          <Link id="link-style" to="/discuss">
-            <ListItem>Discuss</ListItem>
+          <Link to="/discuss" className="text-gray-500 focus:text-white focus:bg-gray-900 p-2 rounded-md">
+            Discuss
           </Link>
-          <Link id="link-style" to="/content/compiler">
-            <ListItem>Compiler</ListItem>
+          <Link to="/content/compiler" className="text-gray-500 focus:text-white focus:bg-gray-900 p-2 rounded-md">
+            Compiler
           </Link>
-        </List>
-        <div className="border-1 border-solid p-2 rounded-md">
-          <p className="text-center border-1 border-solid">
-            {user && `Greetings ${user.username} !`}
-          <p> {user && user._id} </p>
-          </p>
+        </div>
+        <div className="flex items-center">
+          {user && (
+            <div className="text-gray-500 focus:text-white ml-4">
+              <p>Greetings {user.username}!</p>
+              <p>{user._id}</p>
+              {/* Include User component as needed */}
+            </div>
+          )}
         </div>
         <User user={user} token={token} />
       </div>
-    </Card>
+    </nav>
   );
 }

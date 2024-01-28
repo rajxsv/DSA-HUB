@@ -34,8 +34,8 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
   try {
+    const { email, password } = req.body;
     const existinguser = await User.findOne({ email }).lean();
 
     if (!existinguser) {
@@ -43,25 +43,32 @@ const loginUser = async (req, res) => {
     }
 
     const userHashedPassword = existinguser.password;
-    const isValid = await bcrypt.compare(password, userHashedPassword);
+    const isValid = bcrypt.compare(password, userHashedPassword);
 
-    if (!isValid)
+    if (!isValid) {
       res.status(400).json({ message: "Please recheck your password" });
+      return;
+    }
 
     const token = jwt.sign(
       {
         id: existinguser._id,
       },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
+      process.env.SECRET_KEY
     );
+    const user = await User.findOne({ email }).select("-password");
 
     console.log("Logging in User");
 
-    const user = await User.findOne({ email }).select("-password");
-    res.cookie(String(existinguser._id), token, {httpOnly:false});
+    res.clearCookie(String(existinguser._id));
+
+    res
+      .cookie(String(existinguser._id), token, {
+        path: "/",
+        httpOnly: true,
+      })
+
+    console.log(res);
 
     res.status(200).json({
       token,
@@ -74,9 +81,19 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logOutUser = (req, res) => {
+  try {
+    const userId = req.user._id;
+    res.clearCookie(String(userId));
+    res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Server Issue" });
+  }
+};
+
 const getUserProblems = async (req, res) => {
   try {
-    console.log(req.user)
     const _id = req.user._id;
     const user = await User.findById({ _id }).populate("problems");
     res.status(200).json(user.problems);
@@ -108,7 +125,7 @@ const addUserProblem = async (req, res) => {
 
 const deleteUserProblem = async (req, res) => {
   try {
-    const _id = req.user._id; // problem id
+    const _id = req.params.id; // problem id
     await Problem.findOneAndDelete({ _id });
     res.status(200).json({ message: "success" });
   } catch (error) {
@@ -131,8 +148,9 @@ const editUserProblem = async (req, res) => {
 
 const addUserPost = async (req, res) => {
   try {
-    const userId = req.user._id;
-    const { title, body, user } = req.body;
+    const user = req.user;
+    const userId = user._id;
+    const { title, body } = req.body;
 
     const createdPost = await Post.create({ title, body, user });
     createdPost.user = userId;
@@ -147,7 +165,8 @@ const addUserPost = async (req, res) => {
 
 const likeUserPost = async (req, res) => {
   try {
-    const { userId, postId } = req.query;
+    const userId = req.user._id;
+    const { postId } = req.query;
 
     const isDisLiked = await Dislike.findOne({ user: userId, post: postId });
     if (isDisLiked) {
@@ -177,8 +196,9 @@ const likeUserPost = async (req, res) => {
 
 const dislikeUserPost = async (req, res) => {
   try {
-    const { userId, postId } = req.query;
-
+    const userId = req.user._id;
+    const { postId } = req.query;
+    
     const isLiked = await Like.findOne({ user: userId, post: postId });
     if (isLiked) {
       await Like.deleteOne({ user: userId, post: postId });
@@ -227,4 +247,5 @@ export {
   likeUserPost,
   dislikeUserPost,
   deleteUserPost,
+  logOutUser,
 };

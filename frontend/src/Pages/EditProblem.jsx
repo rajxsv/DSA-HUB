@@ -41,8 +41,9 @@ export default function EditProblem() {
   };
 
   return (
+    <div className="w-full flex justify-center" >
     <form
-      className="w-full flex flex-col mr-10 ml-12 mt-9"
+      className="w-4/5 flex flex-col mt-9"
       onSubmit={handleSubmit}
     >
       <div className="space-y-12">
@@ -167,5 +168,6 @@ export default function EditProblem() {
         </div>
       )}
     </form>
+    </div>
   );
 }

@@ -4,11 +4,18 @@
 @tailwind utilities;
   
 
+
 html , body{
     padding: 0;
     margin: 0;
 
     height: 100vh;
+    font-family: monospace;
+    font-size: large;
+}
+
+.bg-landingimage {
+    background-image: url('../Assets/18220884_v1016-b-09.jpg');
 }
 
 .font-subtitle{
