@@ -7,22 +7,35 @@ import Loader from "../componenets/Loader";
 const user = JSON.parse(localStorage.getItem("userData"));
 
 export default function NewListProblems() {
-  const [problems, setProblems] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState();
+  const [problems, setProblems] = useState();
+  const [totalProblems, setTotalProblems] = useState();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const url = "http://localhost:3000/user/getproblems";
-        const { data } = await axios.get(url,{withCredentials:true});
-        setProblems(data);
-      } catch {
-        console.log("Error fetching data");
-      }
+      await axios
+        .get(
+          "http://localhost:3000/public/problems?page=" +
+            String(page) +
+            "&pagesize=" +
+            String(pageSize),
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          setProblems(response.data.problemsPerPage);
+          setTotalProblems(response.data.totalProblems);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     };
     fetchData();
-  }, [showAlert]);
+  }, [showAlert, page]);
 
   const handleDeleteProblem = async (_id) => {
     try {
@@ -143,7 +156,7 @@ export default function NewListProblems() {
                             onClick={() => handleDeleteProblem(item._id)}
                           >
                             Delete
-                          </button>
+                          </button> 
                           <Link to={"/content/editProblem"} state={item}>
                             <button className="mr-3 bg-blue-100 text-blue-900 px-2 p-1 rounded-md">
                               Edit
@@ -159,8 +172,34 @@ export default function NewListProblems() {
           </div>
         </div>
       </div>
+      <div className="flex justify-between" >
+      <div className="px-5 py-2" >Page {page}</div>
+      <div className="flex gap-10 justify-end">
+        <button
+          className="bg-black text-white px-5 py-2 rounded-md"
+          disabled={page == 1}
+          onClick={() => setPage(page - 1)}
+          >
+          {"<-"} Prev
+        </button>
+        <button
+          disabled={page >= totalProblems / pageSize}
+          onClick={() => setPage(page + 1)}
+          className="bg-black text-white px-5 py-2 rounded-md"
+          >
+          Next {"->"}
+        </button>
+      </div>
+      </div>
+      
+      <div className="flex justify-center">
+        <p>
+          {" "}
+          Showing {problems.length} of {totalProblems} problems{" "}
+        </p>
+      </div>
     </section>
   ) : (
     <Loader />
-  );
+    );
 }

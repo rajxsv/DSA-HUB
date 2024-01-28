@@ -77,25 +77,25 @@ export default function Discuss() {
   return posts ? (
     <>
       <div className="w-full mt-6 flex items-center flex-col gap-5">
-        <div className="flex justify-between w-4/5">
+        <div className="flex justify-center gap-[56rem]">
           <div className="m-3 text-bold text-4xl leading-7 font-bold">
             Discuss
           </div>
           <Link to={"/discuss/addpost"}>
-            <button className="bg-black text-white p-3 rounded-md flex float-right">
+            <button className="bg-black text-white p-3 rounded-md flex">
               Add Post
             </button>
           </Link>
         </div>
-        <div className="w-4/5 grid grid-cols-3">
+        <div className="w-4/5 gap-12 flex justify-center flex-wrap">
           {posts.map((item, index) => {
             return (
               <UserPostCard
                 handleLike={handleLike}
                 handleDislike={handleDislike}
                 handleDelete={handleDelete}
-                key={index}
                 data={item}
+                key={index}
               />
             );
           })}

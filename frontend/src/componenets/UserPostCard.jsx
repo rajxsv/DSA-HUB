@@ -80,7 +80,7 @@ export function CardWithLink() {
 
   return (
     (
-      <Card key={key} className="mt-6 overflow-hidden w-96">
+      <Card key={key} className="mt-6 overflow-hidden w-96 border-solid border-2">
         <CardBody>
           <div className="flex justify-between" >
               <p className="f text-3xl font-extrabold font p-2 bg-gray-100 rounded-md">{'</>'}</p>
