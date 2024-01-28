@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GreenAlert } from "../componenets/GreenAlert";
+import Loader from "../componenets/Loader";
 
 const user = JSON.parse(localStorage.getItem("userData"));
 
 export default function NewListProblems() {
-  const [problems, setProblems] = useState([{ title: "loading" }]);
+  const [problems, setProblems] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState();
 
@@ -160,6 +161,6 @@ export default function NewListProblems() {
       </div>
     </section>
   ) : (
-    <h1>Loading</h1>
+    <Loader />
   );
 }

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import UserPostCard from "../componenets/UserPostCard";
 import { Link } from "react-router-dom";
 import { IconButton } from "@material-tailwind/react";
+import Loader from "../componenets/Loader";
 
 export default function Discuss() {
   const [posts, setPosts] = useState();
@@ -48,9 +49,7 @@ export default function Discuss() {
   const handleLike = async (postId, userId) => {
     try {
       await axios.post(
-        "http://localhost:3000/user/likepost?" +
-          "&postId=" +
-          postId,
+        "http://localhost:3000/user/likepost?" + "&postId=" + postId,
         null,
         { withCredentials: true }
       );
@@ -64,9 +63,7 @@ export default function Discuss() {
   const handleDislike = async (postId, userId) => {
     try {
       await axios.post(
-        "http://localhost:3000/user/dislikepost?" +
-          "&postId=" +
-          postId,
+        "http://localhost:3000/user/dislikepost?" + "&postId=" + postId,
         null,
         { withCredentials: true }
       );
@@ -77,7 +74,7 @@ export default function Discuss() {
     }
   };
 
-  return (
+  return posts ? (
     <>
       <div className="w-full mt-6 flex items-center flex-col gap-5">
         <div className="flex justify-between w-4/5">
@@ -91,20 +88,21 @@ export default function Discuss() {
           </Link>
         </div>
         <div className="w-4/5 grid grid-cols-3">
-          {posts &&
-            posts.map((item, index) => {
-              return (
-                <UserPostCard
-                  handleLike={handleLike}
-                  handleDislike={handleDislike}
-                  handleDelete={handleDelete}
-                  key={index}
-                  data={item}
-                />
-              );
-            })}
+          {posts.map((item, index) => {
+            return (
+              <UserPostCard
+                handleLike={handleLike}
+                handleDislike={handleDislike}
+                handleDelete={handleDelete}
+                key={index}
+                data={item}
+              />
+            );
+          })}
         </div>
       </div>
     </>
+  ) : (
+    <Loader />
   );
 }
