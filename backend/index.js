@@ -21,8 +21,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/", userRouter);
 app.use("/", publicRouter);
+app.use("/", userRouter);
 
 app.listen(port, () => {
   console.log("listening on ", port);

@@ -2,6 +2,27 @@ import { Problem } from "../models/problem.model.js";
 import { Post } from "../models/post.modal.js";
 import "dotenv/config";
 
+const paginatedProblems = async(req,res) => {
+  // console.log(req.query)
+  try {
+    const { page,pagesize } = req.query
+    console.log(page,pagesize)
+    const problems = await Problem.find({}).sort("asc")
+    
+    const startIndex = ( page - 1 ) * pagesize
+    const endIndex = page * pagesize
+    
+    const problemsPerPage = problems.slice(startIndex,endIndex)
+    const totalProblems = problems.length
+
+    res.status(200).json({problemsPerPage, totalProblems})
+
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({message:"Server issue"})
+  }
+}
+
 const getAllProblems = async (req, res, next) => {
   let problems;
   try {
@@ -58,4 +79,4 @@ const getPost = async (req,res) => {
   }
 }
 
-export { getAllProblems, getProblemByID, addNewProblem, deleteProblemById, getPost };
+export { getAllProblems, getProblemByID, addNewProblem, deleteProblemById, getPost , paginatedProblems };

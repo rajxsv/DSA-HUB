@@ -198,7 +198,7 @@ const dislikeUserPost = async (req, res) => {
   try {
     const userId = req.user._id;
     const { postId } = req.query;
-    
+
     const isLiked = await Like.findOne({ user: userId, post: postId });
     if (isLiked) {
       await Like.deleteOne({ user: userId, post: postId });
@@ -235,6 +235,8 @@ const deleteUserPost = async (req, res) => {
     res.status(400).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 export {
   loginUser,

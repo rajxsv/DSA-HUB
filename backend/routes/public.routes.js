@@ -5,6 +5,7 @@ import {
   getAllProblems,
   getPost,
   getProblemByID,
+  paginatedProblems,
 } from "../controllers/public.controller.js";
 
 import {
@@ -19,6 +20,7 @@ export const publicRouter = express.Router();
 publicRouter.get("/", getAllProblems);
 publicRouter.get("/:id", getProblemByID);
 publicRouter.get('/discuss/posts', getPost);
+publicRouter.get('/public/problems', paginatedProblems)
 
 publicRouter.post("/post", addNewProblem);
 publicRouter.post("/login", loginUser);
