@@ -2,28 +2,56 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import UserPostCard from "../componenets/UserPostCard";
 import { Link } from "react-router-dom";
-import { IconButton } from "@material-tailwind/react";
 import Loader from "../componenets/Loader";
 
 export default function Discuss() {
   const [posts, setPosts] = useState();
   const [deleted, setDeleted] = useState();
   const [likesAndDislikes, setLikesAndDislikes] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [totalPosts, setTotalPosts] = useState();
   useEffect(() => {
-    const fetchData = async () => {
-      const { data, status } = await axios.get(
-        "http://localhost:3000/discuss/posts",
-        { withCredentials: true }
-      );
-      if (status == 200) {
-        setPosts(data);
-      } else {
-        setPosts(["No Data"]);
-      }
-    };
-    fetchData();
-  }, [deleted, likesAndDislikes]);
+    fetchAllPosts();
+    // if(allPosts) {
+    // } else {
+    // fetchUserPosts();
+    // }
+  }, [deleted, likesAndDislikes, page, pageSize]);
+
+  const fetchAllPosts = async () => {
+    try {
+      await axios
+        .get(
+          "http://localhost:3000/public/posts?" +
+            "page=" +
+            page +
+            "&pagesize=" +
+            pageSize
+        )
+        .then((response) => {
+          setPosts(response.data.postsPerPage);
+          setTotalPosts(response.data.totalPosts);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchUserData = async () => {
+    const { data, status } = await axios.get(
+      "http://localhost:3000/discuss/posts",
+      { withCredentials: true }
+    );
+    if (status == 200) {
+      setPosts(data);
+    } else {
+      setPosts(["No Data"]);
+    }
+  };
 
   const handleDelete = async (_id) => {
     try {
@@ -99,6 +127,34 @@ export default function Discuss() {
               />
             );
           })}
+        </div>
+        <div className="w-[70%]">
+          <div className="flex justify-between">
+            <div className="px-5 py-2">Page {page}</div>
+            <div className="flex gap-10 justify-end">
+              <button
+                className="bg-black text-white px-5 py-2 rounded-md"
+                disabled={page == 1}
+                onClick={() => setPage(page - 1)}
+              >
+                {"<-"} Prev
+              </button>
+              <button
+                disabled={page >= totalPosts / pageSize}
+                onClick={() => setPage(page + 1)}
+                className="bg-black text-white px-5 py-2 rounded-md"
+              >
+                Next {"->"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <p>
+            {" "}
+            Showing {posts.length} of {totalPosts} posts{" "}
+          </p>
         </div>
       </div>
     </>

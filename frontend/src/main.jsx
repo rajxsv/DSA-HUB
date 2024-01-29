@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "@material-tailwind/react";
+import { UserProvider } from "./UserContext";
 
 import App from "./App.jsx";
 import Landing from "./Pages/Landing";
@@ -19,6 +19,7 @@ import SignUp from "./Pages/SignUp";
 import NewListProblems from "./Pages/Test";
 import Discuss from "./Pages/Discuss";
 import AddPost from "./Pages/AddPost";
+import User from "./Pages/User";
 
 // je children paaye aa OUTLET deke aao
 const router = createBrowserRouter([
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Landing />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
       },
       {
         path: "/content/list",
@@ -51,35 +60,26 @@ const router = createBrowserRouter([
         element: <EditProblem />,
       },
       {
-        path: "/content/compiler",
-        element: <Compiler />,
-      },
-      {
         path: "/discuss",
         element: <Discuss />,
       },
       {
         path: "/discuss/addpost",
         element: <AddPost />,
-      },
+      },{
+        path: "/user",
+        element: <User />
+      }
     ],
   },
   {
     path: "/test",
     element: <NewListProblems />,
   },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ThemeProvider>
+  <UserProvider>
     <RouterProvider router={router} />
-  </ThemeProvider>
+  </UserProvider>
 );

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Poppins:ital,wght@0,300;1,200&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,10 +8,10 @@
 html , body{
     padding: 0;
     margin: 0;
-
     height: 100vh;
-    font-family: monospace;
-    font-size: large;
+    font-family: 'JetBrains Mono', monospace;
+    /* font-family: 'Poppins', sans-serif; */
+    font-size: small;
 }
 
 .bg-landingimage {

@@ -2,26 +2,43 @@ import { Problem } from "../models/problem.model.js";
 import { Post } from "../models/post.modal.js";
 import "dotenv/config";
 
-const paginatedProblems = async(req,res) => {
-  // console.log(req.query)
+const paginatedProblems = async (req, res) => {
   try {
-    const { page,pagesize } = req.query
-    console.log(page,pagesize)
-    const problems = await Problem.find({}).sort("asc")
-    
-    const startIndex = ( page - 1 ) * pagesize
-    const endIndex = page * pagesize
-    
-    const problemsPerPage = problems.slice(startIndex,endIndex)
-    const totalProblems = problems.length
+    const { page, pagesize } = req.query;
+    console.log(page, pagesize);
+    const problems = await Problem.find({}).sort("asc");
 
-    res.status(200).json({problemsPerPage, totalProblems})
+    const startIndex = (page - 1) * pagesize;
+    const endIndex = page * pagesize;
 
+    const problemsPerPage = problems.slice(startIndex, endIndex);
+    const totalProblems = problems.length;
+
+    res.status(200).json({ problemsPerPage, totalProblems });
   } catch (error) {
-    console.log(error)
-    res.status(400).json({message:"Server issue"})
+    console.log(error);
+    res.status(400).json({ message: "Server issue" });
   }
-}
+};
+
+const paginatedPosts = async (req, res) => {
+  try {
+    const { page, pagesize } = req.query;
+    console.log(page, pagesize);
+    const posts = await Post.find({}).sort("asc");
+
+    const startIndex = (page - 1) * pagesize;
+    const endIndex = page * pagesize;
+
+    const postsPerPage = posts.slice(startIndex, endIndex);
+    const totalPosts = posts.length;
+
+    res.status(200).json({ postsPerPage, totalPosts });
+  } catch (err) {
+    res.status(400).json({ message: "Server issue" });
+    console.log(err);
+  }
+};
 
 const getAllProblems = async (req, res, next) => {
   let problems;
@@ -69,14 +86,22 @@ const deleteProblemById = async (req, res) => {
   }
 };
 
-const getPost = async (req,res) => {
+const getPost = async (req, res) => {
   try {
-    const posts = await Post.find({}).populate('user')
-    res.status(200).json(posts)
+    const posts = await Post.find({}).populate("user");
+    res.status(200).json(posts);
   } catch (error) {
-    console.log(error)
-    res.status(400).json({message:"Internal Server Error"})
+    console.log(error);
+    res.status(400).json({ message: "Internal Server Error" });
   }
-}
+};
 
-export { getAllProblems, getProblemByID, addNewProblem, deleteProblemById, getPost , paginatedProblems };
+export {
+  getAllProblems,
+  getProblemByID,
+  addNewProblem,
+  deleteProblemById,
+  getPost,
+  paginatedProblems,
+  paginatedPosts,
+};
