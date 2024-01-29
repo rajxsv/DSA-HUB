@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GreenAlert } from "../componenets/GreenAlert";
+import { useUser } from "../UserContext";
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -11,12 +12,10 @@ export default function Login() {
   const [formDisabled, setFormDisabled] = useState(false);
 
   const navigate = useNavigate(false);
-
-  // implement loader, button clicked loader , use hooks (useTransition)
+  const { login } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const { data, status } = await axios.post(
         "http://localhost:3000/login",
@@ -29,9 +28,8 @@ export default function Login() {
 
       if (status == 200) {
         console.log(data.user.email);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userData", JSON.stringify(data.user));
-
+        login(data.user)
+        
         setFormDisabled(true);
         setShowAlert(true);
         setMessage("Logged in....Please wait while we redirect you");

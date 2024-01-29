@@ -3,8 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { GreenAlert } from "../componenets/GreenAlert";
 import Loader from "../componenets/Loader";
-
-const user = JSON.parse(localStorage.getItem("userData"));
+import { useUser } from "../UserContext";
 
 export default function NewListProblems() {
   const [showAlert, setShowAlert] = useState(false);
@@ -13,6 +12,7 @@ export default function NewListProblems() {
   const [totalProblems, setTotalProblems] = useState();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,12 +61,19 @@ export default function NewListProblems() {
 
   return problems ? (
     <section className="p-12 w-4/5 mt-6 mx-auto px-4 py-4">
-      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
+      <div className="flex flex-col space-y-4">
         <div className="flex justify-between w-full">
-          <div>
-            <h2 className="text-bold mb-5 text-4xl leading-7 font-bold">
-              Problems
-            </h2>
+          <div className="w-full">
+            <div className="flex w-full justify-between">
+              <h2 className="text-bold mb-5 text-4xl leading-7 font-bold">
+                Problems
+              </h2>
+              <Link to="/content/addProblem">
+                <button className="bg-black text-white p-3 rounded-md">
+                  Add Problem
+                </button>
+              </Link>
+            </div>
             <p className="mt-1 text-sm text-gray-700">
               This is a list of all Problems.
             </p>
@@ -151,12 +158,13 @@ export default function NewListProblems() {
                           </p>
                         </td>
                         <td className="flex justify-evenly">
-                          <button
+                          {/* {console.log(user,item.user)}
+                          user._id == item.user._id && <button
                             className="ml-3 bg-red-100 text-red-900 p-1 px-2 rounded-md"
                             onClick={() => handleDeleteProblem(item._id)}
                           >
                             Delete
-                          </button> 
+                          </button> */}
                           <Link to={"/content/editProblem"} state={item}>
                             <button className="mr-3 bg-blue-100 text-blue-900 px-2 p-1 rounded-md">
                               Edit
@@ -172,26 +180,26 @@ export default function NewListProblems() {
           </div>
         </div>
       </div>
-      <div className="flex justify-between" >
-      <div className="px-5 py-2" >Page {page}</div>
-      <div className="flex gap-10 justify-end">
-        <button
-          className="bg-black text-white px-5 py-2 rounded-md"
-          disabled={page == 1}
-          onClick={() => setPage(page - 1)}
+      <div className="flex justify-between">
+        <div className="px-5 py-2">Page {page}</div>
+        <div className="flex gap-10 justify-end">
+          <button
+            className="bg-black text-white px-5 py-2 rounded-md"
+            disabled={page == 1}
+            onClick={() => setPage(page - 1)}
           >
-          {"<-"} Prev
-        </button>
-        <button
-          disabled={page >= totalProblems / pageSize}
-          onClick={() => setPage(page + 1)}
-          className="bg-black text-white px-5 py-2 rounded-md"
+            {"<-"} Prev
+          </button>
+          <button
+            disabled={page >= totalProblems / pageSize}
+            onClick={() => setPage(page + 1)}
+            className="bg-black text-white px-5 py-2 rounded-md"
           >
-          Next {"->"}
-        </button>
+            Next {"->"}
+          </button>
+        </div>
       </div>
-      </div>
-      
+
       <div className="flex justify-center">
         <p>
           {" "}
@@ -201,5 +209,5 @@ export default function NewListProblems() {
     </section>
   ) : (
     <Loader />
-    );
+  );
 }

@@ -5,6 +5,7 @@ import {
   getAllProblems,
   getPost,
   getProblemByID,
+  paginatedPosts,
   paginatedProblems,
 } from "../controllers/public.controller.js";
 
@@ -21,6 +22,7 @@ publicRouter.get("/", getAllProblems);
 publicRouter.get("/:id", getProblemByID);
 publicRouter.get('/discuss/posts', getPost);
 publicRouter.get('/public/problems', paginatedProblems)
+publicRouter.get('/public/posts', paginatedPosts)
 
 publicRouter.post("/post", addNewProblem);
 publicRouter.post("/login", loginUser);
