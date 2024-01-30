@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import User from "./User";
 import { useUser } from "../UserContext";
+import Test from "./Test";
 
 export default function Navbar() {
   const { user, logout } = useUser();
@@ -52,35 +52,9 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="flex justify-end"></div>
-        {user ? (
-          <div>
-            <Link to={'/user'} >
-              <button className="ml-2 text-sm bg-white text-black p-2 rounded-md">
-                User
-              </button>
-            </Link>
-            <button
-              className="ml-2 text-sm bg-white text-black p-2 rounded-md"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>
-          </div>
-        ) : (
-          <div>
-            <Link to={"/login"}>
-              <button className="ml-2 text-sm bg-white text-black p-2 rounded-md">
-                Login
-              </button>
-            </Link>
-            <Link className="ml-2" to={"/signup"}>
-              <button className="ml-2 text-sm bg-white text-black p-2 rounded-md">
-                Signup
-              </button>
-            </Link>
-          </div>
-        )}
+        <div className="flex justify-end">
+          <Test />
+        </div>
       </div>
     </nav>
   );
