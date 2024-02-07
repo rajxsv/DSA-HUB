@@ -8,8 +8,8 @@ const auth = async(req,res,next) => {
       if(cookie) {
         const userId = cookie.split('=')[0] 
         const token = cookie.split('=')[1]
-        console.log(cookie)
-        console.log(token)
+        // console.log(cookie)
+        // console.log(token)
 
         const isValid = jwt.verify(token,process.env.SECRET_KEY)
         

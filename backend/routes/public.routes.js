@@ -7,12 +7,10 @@ import {
   getProblemByID,
   paginatedPosts,
   paginatedProblems,
+  search,
 } from "../controllers/public.controller.js";
 
-import {
-  loginUser,
-  registerUser
-} from '../controllers/user.controller.js'
+import { loginUser, registerUser } from "../controllers/user.controller.js";
 
 export const publicRouter = express.Router();
 
@@ -20,9 +18,10 @@ export const publicRouter = express.Router();
 
 publicRouter.get("/", getAllProblems);
 publicRouter.get("/:id", getProblemByID);
-publicRouter.get('/discuss/posts', getPost);
-publicRouter.get('/public/problems', paginatedProblems)
-publicRouter.get('/public/posts', paginatedPosts)
+publicRouter.get("/discuss/posts", getPost);
+publicRouter.get("/public/problems", paginatedProblems);
+publicRouter.get("/public/posts", paginatedPosts);
+publicRouter.get("/public/search", search);
 
 publicRouter.post("/post", addNewProblem);
 publicRouter.post("/login", loginUser);

@@ -60,7 +60,7 @@ export default function NewListProblems() {
   };
 
   return problems ? (
-    <section className="p-12 w-4/5 mt-6 mx-auto px-4 py-4">
+    <section className="w-4/5 mt-6 mx-auto px-4 py-4">
       <div className="flex flex-col space-y-4">
         <div className="flex justify-between w-full">
           <div className="w-full">

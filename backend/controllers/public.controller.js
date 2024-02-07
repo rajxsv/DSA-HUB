@@ -96,6 +96,23 @@ const getPost = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  try {
+    const query = String(req.query.query);
+    const results = await Problem.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { description: { $regex: new RegExp(query, "i") } },
+      ],  
+    }).limit(10);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 export {
   getAllProblems,
   getProblemByID,
@@ -104,4 +121,5 @@ export {
   getPost,
   paginatedProblems,
   paginatedPosts,
+  search,
 };

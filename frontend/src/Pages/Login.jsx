@@ -28,8 +28,8 @@ export default function Login() {
 
       if (status == 200) {
         console.log(data.user.email);
-        login(data.user)
-        
+        login(data.user);
+
         setFormDisabled(true);
         setShowAlert(true);
         setMessage("Logged in....Please wait while we redirect you");

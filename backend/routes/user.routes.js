@@ -13,10 +13,10 @@ import {
 import { auth } from "../controllers/auth.controller.js";
 
 export const userRouter = express.Router();
-
+  
 userRouter.get("/user/getproblems", auth, getUserProblems);
 
-userRouter.post("/user/addproblem/:id", auth, addUserProblem);
+userRouter.post("/user/addproblem", auth, addUserProblem);
 userRouter.post('/user/addpost', auth, addUserPost);
 userRouter.post('/user/likepost', auth, likeUserPost);
 userRouter.post('/user/dislikepost', auth, dislikeUserPost);
