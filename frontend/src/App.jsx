@@ -7,7 +7,7 @@ export default function App() {
   const { user } = useUser()
   const navigate = useNavigate();
   useEffect(() => {
-    if (!user) {
+    if (user == null) {
       navigate("/signup");
     }
   }, []);
