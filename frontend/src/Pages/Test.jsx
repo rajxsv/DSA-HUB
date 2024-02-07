@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { useUser } from "../UserContext";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Test = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +27,9 @@ const Test = () => {
   }, []);
 
   const { user, logout } = useUser();
+  const navigate = useNavigate()
 
-  const handleLogout = async (e) => {
+  const handleLogout = async () => {
     try {
       logout();
       const { data, status } = await axios.delete(
@@ -40,11 +43,14 @@ const Test = () => {
         alert("There was some problem");
         console.log(data);
       }
-    } catch (error) {}
+    } catch (error) {
+      alert(error)  
+      console.log(error)
+    }
   };
 
   return (
-    <div className="relative"  ref={dropdownRef} >
+    <div className="relative" ref={dropdownRef}>
       <button
         className="flex items-center text-white focus:outline-none"
         onClick={toggleDropdown}
@@ -57,7 +63,6 @@ const Test = () => {
 
       {isOpen && (
         <div className="w-[8rem] absolute right-0 mt-2 bg-white border rounded shadow-lg">
-          {/* Dropdown content */}
           <ul className="py-1">
             {user ? (
               <Link to={"/user"}>

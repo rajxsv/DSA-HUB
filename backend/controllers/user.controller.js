@@ -236,8 +236,6 @@ const deleteUserPost = async (req, res) => {
   }
 };
 
-
-
 export {
   loginUser,
   registerUser,

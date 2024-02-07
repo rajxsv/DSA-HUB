@@ -25,24 +25,24 @@ export default function AddProblem() {
         done: false,
       };
       await axios
-        .post("http://localhost:3000/user/addproblem/" + user._id, newProblem, {
+        .post("http://localhost:3000/user/addproblem", newProblem, {
           withCredentials: true,
         })
         .then(() => {
-          // setShowAlert(true);
+          setShowAlert(true);
 
-          // setTimeout(() => {
-            // setShowAlert(false);
-            // setTitle("");
-            // setDesc("");
-            // setLink("");
-            // setTags("");
-            // navigate("/content/list");
-          // }, 1 * 1000);
+          setTimeout(() => {
+            setShowAlert(false);
+            setTitle("");
+            setDesc("");
+            setLink("");
+            setTags("");
+            navigate("/content/list");
+          }, 1 * 1000);
         })
-        // .catch((err) => {
-          // console.error(err);
-        // });
+        .catch((err) => {
+          console.error(err);
+        });
     } catch {
       console.log("Error Posting data");
     }
