@@ -99,6 +99,7 @@ const getPost = async (req, res) => {
 const search = async (req, res) => {
   try {
     const query = String(req.query.query);
+    console.log(query)
     const results = await Problem.find({
       $or: [
         { title: { $regex: new RegExp(query, "i") } },

@@ -13,6 +13,7 @@ export default function NewListProblems() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const { user } = useUser();
+  const [search, setSearch] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +59,17 @@ export default function NewListProblems() {
       alert("There was some issue");
     }
   };
+  const handleSearch = async () => {
+    try {
+      setProblems(null)
+      const { data } = await axios.get("http://localhost:3000/public/search?query="+`${search}`)
+      setProblems(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  console.log(search);
 
   return problems ? (
     <section className="w-4/5 mt-6 mx-auto px-4 py-4">
@@ -68,11 +80,24 @@ export default function NewListProblems() {
               <h2 className="text-bold mb-5 text-4xl leading-7 font-bold">
                 Problems
               </h2>
-              <Link to="/content/addProblem">
-                <button className="bg-black text-white p-3 rounded-md">
-                  Add Problem
-                </button>
-              </Link>
+              <div className="flex gap-7 items-center justify-end">
+                <div>
+                  <input
+                    type="text"
+                    id="search"
+                    value={search}
+                    onChange={((e) => setSearch(e.target.value))}
+                  ></input>
+                  <button className="bg-black text-white p-3 rounded-md" onClick={handleSearch} >
+                    Search
+                  </button>
+                </div>
+                <Link to="/content/addProblem">
+                  <button className="bg-black text-white p-3 rounded-md">
+                    Add Problem
+                  </button>
+                </Link>
+              </div>
             </div>
             <p className="mt-1 text-sm text-gray-700">
               This is a list of all Problems.
