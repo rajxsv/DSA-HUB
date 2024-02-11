@@ -81,12 +81,13 @@ export default function NewListProblems() {
                 Problems
               </h2>
               <div className="flex gap-7 items-center justify-end">
-                <div>
+                <div className="flex gap-4" >
                   <input
                     type="text"
                     id="search"
                     value={search}
                     onChange={((e) => setSearch(e.target.value))}
+                    className="rounded-md"
                   ></input>
                   <button className="bg-black text-white p-3 rounded-md" onClick={handleSearch} >
                     Search
