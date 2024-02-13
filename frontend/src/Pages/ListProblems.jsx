@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { GreenAlert } from "../componenets/GreenAlert";
 import Loader from "../componenets/Loader";
 import { useUser } from "../UserContext";
+
+const params = new URLSearchParams(document.location.search);
 
 export default function NewListProblems() {
   const [showAlert, setShowAlert] = useState(false);
   const [message, setMessage] = useState();
   const [problems, setProblems] = useState();
   const [totalProblems, setTotalProblems] = useState();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(params.get("page") || 1);
   const [pageSize, setPageSize] = useState(10);
   const { user } = useUser();
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState(params.get("query"));
+  const navigate = useNavigate();
+  const url = useParams()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get(
-          "http://localhost:3000/public/problems?page=" +
-            String(page) +
-            "&pagesize=" +
-            String(pageSize),
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          setProblems(response.data.problemsPerPage);
-          setTotalProblems(response.data.totalProblems);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    fetchData();
-  }, [showAlert, page]);
-
+  const fetchData = async () => {
+    await axios
+      .get(
+        "http://localhost:3000/public/problems?page=" +
+          String(page) +
+          "&pagesize=" +
+          String(pageSize),
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setProblems(response.data.problemsPerPage);
+        setTotalProblems(response.data.totalProblems);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleDeleteProblem = async (_id) => {
     try {
       const url = "http://localhost:3000/user/deleteproblem/" + _id;
@@ -59,17 +59,30 @@ export default function NewListProblems() {
       alert("There was some issue");
     }
   };
+
   const handleSearch = async () => {
     try {
-      setProblems(null)
-      const { data } = await axios.get("http://localhost:3000/public/search?query="+`${search}`)
-      setProblems(data)
+      const { data } = await axios.get(
+        `http://localhost:3000/public/search?page=${page}&query=${search}`
+      );
+      setProblems(data.problemsPerPage);
+      setTotalProblems(data.totalProblems);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  
-  console.log(search);
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      if (search) {
+        await handleSearch();
+      } else {
+        await fetchData();
+      }
+    }
+    load()
+  }, [page]);
+
 
   return problems ? (
     <section className="w-4/5 mt-6 mx-auto px-4 py-4">
@@ -81,17 +94,22 @@ export default function NewListProblems() {
                 Problems
               </h2>
               <div className="flex gap-7 items-center justify-end">
-                <div className="flex gap-4" >
+                <div className="flex gap-4">
                   <input
                     type="text"
                     id="search"
                     value={search}
-                    onChange={((e) => setSearch(e.target.value))}
+                    onChange={(e) => setSearch(e.target.value)}
                     className="rounded-md"
                   ></input>
-                  <button className="bg-black text-white p-3 rounded-md" onClick={handleSearch} >
-                    Search
-                  </button>
+                  <Link to={`/content/list?page=1&query=${search}`}>
+                    <button
+                      className="bg-black text-white p-3 rounded-md"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </button>
+                  </Link>
                 </div>
                 <Link to="/content/addProblem">
                   <button className="bg-black text-white p-3 rounded-md">
@@ -209,20 +227,30 @@ export default function NewListProblems() {
       <div className="flex justify-between">
         <div className="px-5 py-2">Page {page}</div>
         <div className="flex gap-10 justify-end">
-          <button
-            className="bg-black text-white px-5 py-2 rounded-md"
-            disabled={page == 1}
-            onClick={() => setPage(page - 1)}
+          <Link to={`/content/list?page=${page - 1}`}>
+            <button
+              className="bg-black text-white px-5 py-2 rounded-md"
+              disabled={page == 1}
+              onClick={() => setPage(page - 1)}
+            >
+              {"<-"} Prev
+            </button>
+          </Link>
+          <Link
+            to={
+              search
+                ? `/content/list?page=${page + 1}&query=${search}`
+                : `/content/list?page=${page + 1}`
+            }
           >
-            {"<-"} Prev
-          </button>
-          <button
-            disabled={page >= totalProblems / pageSize}
-            onClick={() => setPage(page + 1)}
-            className="bg-black text-white px-5 py-2 rounded-md"
-          >
-            Next {"->"}
-          </button>
+            <button
+              disabled={page >= totalProblems / pageSize}
+              onClick={() => setPage(page + 1)}
+              className="bg-black text-white px-5 py-2 rounded-md"
+            >
+              Next {"->"}
+            </button>
+          </Link>
         </div>
       </div>
 

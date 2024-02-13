@@ -35,6 +35,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
+    console.log(req.body)
     const { email, password } = req.body;
     const existinguser = await User.findOne({ email }).lean();
 
