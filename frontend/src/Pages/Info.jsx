@@ -7,6 +7,8 @@ export default function Info({ problem }) {
   const tags = problem.tags;
   const link = problem.links;
 
+  console.log(problem);
+
   return (
     <div className="top-0 min-h-screen w-full flex justify-center">
       <div className="w-full p-8">
@@ -14,9 +16,18 @@ export default function Info({ problem }) {
         <p className="mb-4">{description}</p>
 
         <div className="flex-wrap mb-4">
-          <span className="bg-gray-700 text-gray-300 py-1 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa px-2 rounded mr-2 mb-2">
-            {tags}
-          </span>
+          {Array.isArray(tags)
+            ? tags.map((item, index) => {
+                return (
+                  <span
+                    key={index}
+                    className="bg-gray-700 text-gray-300 py-1 px-2 rounded mr-2 mb-2"
+                  >
+                    {item}
+                  </span>
+                );
+              })
+            : tags}
         </div>
 
         <div className="mb-4">

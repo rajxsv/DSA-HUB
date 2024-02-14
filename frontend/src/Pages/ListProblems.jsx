@@ -175,7 +175,7 @@ export default function NewListProblems() {
                           <div className="text-sm text-gray-900">
                             <Link
                               key={index}
-                              to="/content/problems/"
+                              to={`/content/problems?problemid=${item._id}`}
                               state={{ id: item.id }}
                             >
                               {item.title}

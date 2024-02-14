@@ -53,9 +53,11 @@ const getAllProblems = async (req, res, next) => {
 
 const getProblemByID = async (req, res) => {
   const ID = req.params.id;
+  console.log(ID);
   let problem;
   try {
-    problem = await Problem.findOne({ id: ID }).lean();
+    problem = await Problem.findById(ID);
+    console.log(problem);
     res.status(200).json({ problem });
   } catch (error) {
     console.log(error);
@@ -65,6 +67,8 @@ const getProblemByID = async (req, res) => {
 
 const addNewProblem = async (req, res) => {
   let problem = req.body.newProblem;
+  console.log(problem);
+  problem = { ...problem, user: req.user._id };
   try {
     const newProblem = new Problem(problem);
     await newProblem.save();

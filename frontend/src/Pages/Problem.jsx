@@ -1,24 +1,26 @@
 import React from "react";
 import Header from "./Header";
 import Info from "./Info";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../componenets/Loader";
 
 export default function Problems() {
-  const { state } = useLocation();
-  const id = state.id;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const problemId = searchParams.get("problemid");
   const [problem, setProblem] = useState({});
-  
+
   useEffect(() => {
     const fetchProblem = async () => {
-      const url = "http://localhost:3000/" + id;
+      const url = "http://localhost:3000/" + problemId;
       let response;
       try {
         response = await axios.get(url);
+        console.log(response);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       setProblem(response.data.problem);
@@ -26,15 +28,7 @@ export default function Problems() {
     fetchProblem();
   }, []);
 
-  return problem ? (
-    <>
-      {/* <Header problem={problem} /> */}
-      <Info problem={problem} />
-    </>
-  ) : (
-    <>
-      {" "}
-      <h1>loading...</h1>{" "}
-    </>
-  );
+  console.log(problem);
+
+  return problem ? <Info problem={problem} /> : <Loader />;
 }

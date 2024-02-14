@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <List />,
       },
       {
-        path: "/content/problems/",
+        path: "/content/problems?",
         element: <Problems />,
       },
       {

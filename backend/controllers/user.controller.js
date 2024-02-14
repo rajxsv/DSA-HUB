@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
   if (existinguser) {
     res.status(400).json({ message: "User already exist" });
   }
-  
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -35,7 +35,7 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { email, password } = req.body;
     const existinguser = await User.findOne({ email }).lean();
 
@@ -63,11 +63,10 @@ const loginUser = async (req, res) => {
 
     res.clearCookie(String(existinguser._id));
 
-    res
-      .cookie(String(existinguser._id), token, {
-        path: "/",
-        httpOnly: true,
-      })
+    res.cookie(String(existinguser._id), token, {
+      path: "/",
+      httpOnly: true,
+    });
 
     console.log(res);
 
@@ -114,6 +113,7 @@ const addUserProblem = async (req, res) => {
       tags,
       links,
       done,
+      user: _id,
     });
     const newProblemID = newProblem._id;
     await User.updateOne({ _id }, { $push: { problems: newProblemID } });
