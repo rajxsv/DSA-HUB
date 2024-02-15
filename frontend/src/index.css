@@ -28,3 +28,9 @@ html , body{
     letter-spacing: 3rem;
     overflow-wrap: break-word;
 }
+
+.border-rainbow {
+    border: 3px solid;
+    border-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red) 1;
+    border-radius: 0.5rem;
+}
