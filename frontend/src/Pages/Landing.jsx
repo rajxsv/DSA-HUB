@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Banner from "../componenets/Banner";
 
 function Landing() {
   return (
     <div className="bg-black h-full">
+      <Banner message={"Contribute Here !"} link={"https://github.com/rajxsv/DSA-HUB"}/>
       <div className="container mx-auto py-8">
         <div className="text-center mb-8 flex flex-col gap-4">
           <h1 className="text-8xl font-bold text-white">DSA HUB</h1>
@@ -32,16 +34,15 @@ function Landing() {
             </button>
           </Link>
         </section>
-        <section className="mb-12"> 
+        <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4 text-white">Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-900 p-6 rounded-lg shadow-md border-rainbow">
               <h3 className="text-xl text-white font-semibold mb-2 text-gray">
-                Explore Problems
+                Open Surce
               </h3>
               <p className="text-gray-400">
-                Browse through a vast collection of problems to sharpen your
-                skills.
+                No More Locked Problems and Premium Features.
               </p>
             </div>
 
@@ -64,13 +65,14 @@ function Landing() {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-10 mt-10" >
+          <div className="flex items-center justify-center gap-10 mt-10">
             <div className="bg-gray-900 p-6 h-[11rem] rounded-lg w-[30rem] shadow-md border-rainbow">
               <h3 className="text-xl text-white font-semibold mb-2 text-gray">
-                Open Surce
+                Explore Problems
               </h3>
               <p className="text-gray-400">
-                No More Locked Problems and Premium Features.
+                Browse through a vast collection of problems to sharpen your
+                skills.
               </p>
             </div>
             <div className="bg-gray-900 p-6 w-[30rem] h-[11rem] rounded-lg shadow-md border-rainbow">
@@ -83,11 +85,14 @@ function Landing() {
             </div>
           </div>
         </section>
-
-        
-
         <footer className="text-center text-gray-600">
-          <p>Designed with ❤️ by Rajpreet Singh</p>
+          <p>Made with ❤️ by Rajpreet Singh</p>
+          <div className="flex justify-center gap-3 " >
+          <p>Contribue Here {"->"} </p>{" "}
+          <a className="text-blue-900" href="https://github.com/rajxsv/DSA-HUB">
+            Github
+          </a>
+          </div>
         </footer>
       </div>
     </div>

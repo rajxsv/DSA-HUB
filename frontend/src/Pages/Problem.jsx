@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "./Header";
-import Info from "./Info";
+import Info from "../componenets/Info";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../componenets/Loader";
+import Compiler from "./Compiler";
 
 export default function Problems() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,5 +31,16 @@ export default function Problems() {
 
   console.log(problem);
 
-  return problem ? <Info problem={problem} /> : <Loader />;
+  return problem ? (
+    <div className="flex w-full h-full">
+      <div className="w-2/5" > 
+        <Info problem={problem} />
+      </div>
+      <div className="border-solid m-4 border w-3/5 ">
+        <Compiler />
+      </div>
+    </div>
+  ) : (
+    <Loader />
+  );
 }
