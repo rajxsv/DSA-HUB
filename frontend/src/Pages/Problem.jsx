@@ -1,24 +1,27 @@
 import React from "react";
 import Header from "./Header";
-import Info from "./Info";
-import { useLocation } from "react-router-dom";
+import Info from "../componenets/Info";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../componenets/Loader";
+import Compiler from "./Compiler";
 
 export default function Problems() {
-  const { state } = useLocation();
-  const id = state.id;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const problemId = searchParams.get("problemid");
   const [problem, setProblem] = useState({});
-  
+
   useEffect(() => {
     const fetchProblem = async () => {
-      const url = "http://localhost:3000/" + id;
+      const url = "http://localhost:3000/" + problemId;
       let response;
       try {
         response = await axios.get(url);
+        console.log(response);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
       setProblem(response.data.problem);
@@ -26,15 +29,18 @@ export default function Problems() {
     fetchProblem();
   }, []);
 
+  console.log(problem);
+
   return problem ? (
-    <>
-      {/* <Header problem={problem} /> */}
-      <Info problem={problem} />
-    </>
+    <div className="flex w-full h-full">
+      <div className="w-2/5" > 
+        <Info problem={problem} />
+      </div>
+      <div className="border-solid m-4 border w-3/5 ">
+        <Compiler />
+      </div>
+    </div>
   ) : (
-    <>
-      {" "}
-      <h1>loading...</h1>{" "}
-    </>
+    <Loader />
   );
 }

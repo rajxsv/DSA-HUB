@@ -8,10 +8,12 @@
 html , body{
     padding: 0;
     margin: 0;
-    height: 100vh;
     font-family: 'JetBrains Mono', monospace;
-    /* font-family: 'Poppins', sans-serif; */
     font-size: small;
+}
+
+#root {
+    height:100%;
 }
 
 .bg-landingimage {
@@ -27,4 +29,10 @@ html , body{
 .font-title {
     letter-spacing: 3rem;
     overflow-wrap: break-word;
+}
+
+.border-rainbow {
+    border: 3px solid;
+    border-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red) 1;
+    border-radius: 0.5rem;
 }

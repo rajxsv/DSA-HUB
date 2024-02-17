@@ -11,8 +11,17 @@ export default function AddProblem() {
   const [desc, setDesc] = useState("");
   const [link, setLink] = useState("");
   const [tags, setTags] = useState("");
+  const [tag, setTag] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+
+  function handleTags(e) {
+    e.preventDefault;
+    if (tag) {
+      setTags([...tags, tag]);
+      setTag("");
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +29,7 @@ export default function AddProblem() {
       const newProblem = {
         title: title,
         description: desc,
-        tags: tags,
+        tags,
         links: link,
         done: false,
       };
@@ -48,11 +57,8 @@ export default function AddProblem() {
     }
   };
   return (
-    <div className="w-full flex justify-center" >
-      <form
-        className="w-4/5 flex flex-col mt-9"
-        onSubmit={handleSubmit}
-      >
+    <div className="w-full flex justify-center">
+      <form className="w-4/5 flex flex-col mt-9" onSubmit={handleSubmit}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h1 className="text-bold mb-5 text-4xl leading-7 font-bold">
@@ -115,19 +121,32 @@ export default function AddProblem() {
             >
               Topic
             </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  disabled={showAlert}
-                  className="block ml-2 flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  required={true}
-                  type="text"
-                  placeholder="tags"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                />
+
+            <div className="mt-2 flex flex-col gap-3 ">
+              <div className="flex gap-2">
+                {tags && tags.map((item, index) => <p key={index}>{item}</p>)}
+              </div>
+              <div className="flex gap-4">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    disabled={showAlert}
+                    className="block ml-2 flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    type="text"
+                    placeholder="tag"
+                    value={tag}
+                    onChange={(e) => setTag(e.target.value)}
+                  />
+                </div>
+                <button
+                  className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm "
+                  onClick={handleTags}
+                  type="button"
+                >
+                  Add
+                </button>
               </div>
             </div>
+
             <label
               htmlFor="link"
               className="mt-6 block text-sm font-medium leading-6 text-gray-900"

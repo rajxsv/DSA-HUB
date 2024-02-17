@@ -13,7 +13,7 @@ import {
 import { loginUser, registerUser } from "../controllers/user.controller.js";
 
 export const publicRouter = express.Router();
-
+ 
 // public routes
 
 publicRouter.get("/", getAllProblems);
