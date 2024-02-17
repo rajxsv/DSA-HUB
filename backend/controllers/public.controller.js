@@ -1,20 +1,40 @@
 import { Problem } from "../models/problem.model.js";
 import { Post } from "../models/post.modal.js";
 import "dotenv/config";
+import redisClient from "../db/redis.js";
 
 const paginatedProblems = async (req, res) => {
   try {
     const { page, pagesize } = req.query;
-    console.log(page, pagesize);
-    const problems = await Problem.find({}).sort("asc");
+    const key = `problems_${page}_${pagesize}`;
 
-    const startIndex = (page - 1) * pagesize;
-    const endIndex = page * pagesize;
+    let cachedProblems = await redisClient.get(key);
 
-    const problemsPerPage = problems.slice(startIndex, endIndex);
-    const totalProblems = problems.length;
+    if (cachedProblems) {
+      cachedProblems = JSON.parse(cachedProblems);
+      const { problemsPerPage, totalProblems } = cachedProblems;
+      console.log("sending cached data");
+      res.status(200).json({ problemsPerPage, totalProblems });
+    } else {
+      console.log(page, pagesize);
+      const problems = await Problem.find({}).sort("asc");
 
-    res.status(200).json({ problemsPerPage, totalProblems });
+      const startIndex = (page - 1) * pagesize;
+      const endIndex = page * pagesize;
+
+      const problemsPerPage = problems.slice(startIndex, endIndex);
+      const totalProblems = problems.length;
+
+      await redisClient.set(
+        key,
+        JSON.stringify({
+          problemsPerPage,
+          totalProblems,
+        })
+      );
+
+      res.status(200).json({ problemsPerPage, totalProblems });
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Server issue" });
@@ -32,6 +52,10 @@ const paginatedPosts = async (req, res) => {
 
     const postsPerPage = posts.slice(startIndex, endIndex);
     const totalPosts = posts.length;
+
+    if (!postsPerPage) {
+      res.status(200).json({ message: "No Problems found" });
+    }
 
     res.status(200).json({ postsPerPage, totalPosts });
   } catch (err) {
