@@ -32,12 +32,9 @@ export default function Problems() {
   console.log(problem);
 
   return problem ? (
-    <div className="flex w-full h-full">
-      <div className="w-2/5" > 
+    <div className="flex justify-center w-full">
+      <div className="w-4/5 flex justify-center" > 
         <Info problem={problem} />
-      </div>
-      <div className="border-solid m-4 border w-3/5 ">
-        <Compiler />
       </div>
     </div>
   ) : (

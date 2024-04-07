@@ -32,7 +32,7 @@ const paginatedProblems = async (req, res) => {
           totalProblems,
         })
       );
-
+      
       res.status(200).json({ problemsPerPage, totalProblems });
     }
   } catch (error) {
@@ -52,12 +52,12 @@ const paginatedPosts = async (req, res) => {
 
     const postsPerPage = posts.slice(startIndex, endIndex);
     const totalPosts = posts.length;
-
+    
     if (!postsPerPage) {
       res.status(200).json({ message: "No Problems found" });
+    } else {
+      res.status(200).json({ postsPerPage, totalPosts });
     }
-
-    res.status(200).json({ postsPerPage, totalPosts });
   } catch (err) {
     res.status(400).json({ message: "Server issue" });
     console.log(err);
