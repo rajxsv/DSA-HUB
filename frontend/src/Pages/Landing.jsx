@@ -5,28 +5,26 @@ import Banner from "../componenets/Banner";
 function Landing() {
   return (
     <div className="bg-black h-full">
-      <Banner message={"Contribute Here !"} link={"https://github.com/rajxsv/DSA-HUB"}/>
+      <Banner message={"Join Us Now!"} link={"https://github.com/rajxsv/Coding-Hub"}/>
       <div className="container mx-auto py-8">
         <div className="text-center mb-8 flex flex-col gap-4">
-          <h1 className="text-8xl font-bold text-white">DSA HUB</h1>
+          <h1 className="text-8xl font-bold text-white">Coding Hub</h1>
           <p className="tex text-gray-400">
-            Your Destination for Data Structure Problem Solving and Upskilling
+            Your Ultimate Destination for Coding Practice and Skill Enhancement
           </p>
         </div>
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4 text-white">About DSA-HUB</h2>
+          <h2 className="text-2xl font-bold mb-4 text-white">About Coding Hub</h2>
           <p className="text-gray-400">
-            DSA-HUB is an open-source platform dedicated to providing resources
-            and tools for learning and practicing data structures and
-            algorithms.
+            Coding Hub is an inclusive platform aimed at providing resources and tools for mastering various programming languages, development practices, and problem-solving techniques.
           </p>
         </section>
         <section className="bg-gray-900 text-white py-12 rounded-lg text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">
-            Start Your DSA Journey Today!
+            Start Your Coding Journey Today!
           </h2>
           <p className="text-lg">
-            Join our community, solve problems, and level up your coding skills.
+            Join our community, solve problems, and elevate your coding skills.
           </p>
           <Link to={"/signup"}>
             <button className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
@@ -39,48 +37,45 @@ function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-900 p-6 rounded-lg shadow-md border-rainbow">
               <h3 className="text-xl text-white font-semibold mb-2 text-gray">
-                Open Surce
+                Code Practice
               </h3>
               <p className="text-gray-400">
-                No More Locked Problems and Premium Features.
+                Sharpen your coding skills with a wide range of practice problems.
               </p>
             </div>
 
             <div className="bg-gray-900 p-6 rounded-lg shadow-md border-rainbow">
               <h3 className="text-xl font-semibold mb-2 text-white">
-                Submit Solutions
+                Language Learning
               </h3>
               <p className="text-gray-400">
-                Submit your solutions and contribute to the open-source
-                community.
+                Learn new programming languages or enhance your proficiency in existing ones.
               </p>
             </div>
             <div className="bg-gray-900 p-6 rounded-lg shadow-md border-rainbow">
               <h3 className="text-xl font-semibold mb-2 text-white">
-                Join Discussions
+                Project Showcase
               </h3>
               <p className="text-gray-400">
-                Engage in meaningful discussions with fellow developers about
-                various algorithms and problem-solving techniques.
+                Showcase your projects, collaborate with others, and get feedback.
               </p>
             </div>
           </div>
           <div className="flex items-center justify-center gap-10 mt-10">
             <div className="bg-gray-900 p-6 h-[11rem] rounded-lg w-[30rem] shadow-md border-rainbow">
               <h3 className="text-xl text-white font-semibold mb-2 text-gray">
-                Explore Problems
+                Interview Prep
               </h3>
               <p className="text-gray-400">
-                Browse through a vast collection of problems to sharpen your
-                skills.
+                Prepare for technical interviews with curated problem sets and interview tips.
               </p>
             </div>
             <div className="bg-gray-900 p-6 w-[30rem] h-[11rem] rounded-lg shadow-md border-rainbow">
               <h3 className="text-xl text-white font-semibold mb-2 text-gray">
-                Made For The Community
+                Community Collaboration
               </h3>
               <p className="text-gray-400">
-                Customise , Add , Edit as much as you like in any way you like.
+                Collaborate with fellow developers, share knowledge, and grow together.
               </p>
             </div>
           </div>
@@ -88,8 +83,8 @@ function Landing() {
         <footer className="text-center text-gray-600">
           <p>Made with ❤️ by Rajpreet Singh</p>
           <div className="flex justify-center gap-3 " >
-          <p>Contribue Here {"->"} </p>{" "}
-          <a className="text-blue-900" href="https://github.com/rajxsv/DSA-HUB">
+          <p>Contribute Here {"->"} </p>{" "}
+          <a className="text-blue-900" href="https://github.com/rajxsv/Coding-Hub">
             Github
           </a>
           </div>

@@ -17,7 +17,7 @@ export default function NewListProblems() {
   const { user } = useUser();
   const [search, setSearch] = useState(params.get("query"));
   const navigate = useNavigate();
-  const url = useParams()
+  const url = useParams();
 
   const fetchData = async () => {
     await axios
@@ -33,6 +33,7 @@ export default function NewListProblems() {
       .then((response) => {
         setProblems(response.data.problemsPerPage);
         setTotalProblems(response.data.totalProblems);
+        console.log(problems);
       })
       .catch((err) => {
         console.log(err);
@@ -79,10 +80,9 @@ export default function NewListProblems() {
       } else {
         await fetchData();
       }
-    }
-    load()
+    };
+    load();
   }, [page]);
-
 
   return problems ? (
     <section className="w-4/5 mt-6 mx-auto px-4 py-4">
@@ -125,104 +125,44 @@ export default function NewListProblems() {
           <div>{showAlert && <GreenAlert message={message} />}</div>
         </div>
       </div>
-      <div className="mt-6 flex flex-col w-full">
-        <div className="overflow-x-auto">
-          <div className="inline-block min-w-full py-2 align-middle ">
-            <div className="overflow-hidden border border-gray-200">
-              <table className="min-w-full  divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr className=" bg-white m-0 divide-x divide-gray-200">
-                    <th
-                      scope="col"
-                      className="px-12 py-3.5 text-left text-sm font-normal text-gray-500"
-                    >
-                      Title
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
-                    >
-                      Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500 "
-                    >
-                      Tag
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
-                    >
-                      id
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
-                    >
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                {problems.map((item, index) => {
-                  return (
-                    <tbody
-                      key={index}
-                      className="divide-y divide-gray-200 bg-white"
-                    >
-                      <tr className="divide-x divide-gray-200">
-                        <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900">
-                            <Link
-                              key={index}
-                              to={`/content/problems?problemid=${item._id}`}
-                              state={{ id: item.id }}
-                            >
-                              {item.title}
-                            </Link>
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-4">
-                          {item.done ? (
-                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                              Done
-                            </span>
-                          ) : (
-                            <span className="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">
-                              Not Done
-                            </span>
-                          )}
-                        </td>
-                        <td className="flex justify-between whitespace-nowrap px-4 py-4 text-sm text-gray-500">
-                          {item.tags}
-                        </td>
-                        <td>
-                          <p className="flex justify-between whitespace-nowrap px-4 py-4 text-sm text-gray-500">
-                            {item._id}
-                          </p>
-                        </td>
-                        <td className="flex justify-evenly">
-                          {/* {console.log(user,item.user)}
-                          user._id == item.user._id && <button
-                            className="ml-3 bg-red-100 text-red-900 p-1 px-2 rounded-md"
-                            onClick={() => handleDeleteProblem(item._id)}
-                          >
-                            Delete
-                          </button> */}
-                          <Link to={"/content/editProblem"} state={item}>
-                            <button className="mr-3 bg-blue-100 text-blue-900 px-2 p-1 rounded-md">
-                              Edit
-                            </button>
-                          </Link>
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-              </table>
+      <div className="space-y-4 w-full">
+        {problems.map((item, index) => (
+          <div
+            key={index}
+            className={`bg-white flex rounded-lg p-2 ${
+              index % 2 == 0 ? "bg-gray-300" : ""
+            } flex gap-5 justify-between`}
+          >
+            <Link
+              to={`/content/problems?problemid=${item._id}`}
+              state={{ id: item.id }}
+            >
+              <div className="text-lg font-semibold mb-2 w-7/12">
+                {item.title}
+              </div>
+            </Link>
+            <div className="flex justify-between items-center mb-2 w-3/12">
+              <span
+                className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                  item.done
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {item.done ? "Done" : "Not Done"}
+              </span>
+              <span className="text-sm text-gray-500">{item.tags[0]}</span>
+            </div>
+            <p className="text-sm text-gray-500">ID: {item._id}</p>
+            <div>
+              <Link to={"/content/editProblem"} state={item}>
+                <button className="bg-blue-100 text-blue-900 px-2 py-1 rounded-md">
+                  Edit
+                </button>
+              </Link>
             </div>
           </div>
-        </div>
+        ))}
       </div>
       <div className="flex justify-between">
         <div className="px-5 py-2">Page {page}</div>
