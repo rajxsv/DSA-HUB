@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Banner from "../components/Banner";
 
 function Landing() {
   const history = useHistory();
