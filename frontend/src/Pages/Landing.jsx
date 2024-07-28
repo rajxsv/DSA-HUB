@@ -1,8 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Banner from "../componenets/Banner";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Banner from "../components/Banner";
 
 function Landing() {
+  const history = useHistory();
+
+  useEffect(() => {
+    window.location.href = "https://coding-hub-website.vercel.app/";
+  }, [history]);
+
   return (
     <div className="bg-black h-full">
       <Banner message={"Join Us Now!"} link={"https://github.com/rajxsv/Coding-Hub"}/>
